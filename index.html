@@ -3,172 +3,267 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rogue Markets - Trading & Fund Management</title>
+  <title>Rogue Markets - Professional Trading & Fund Management</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
-    body { background-color: #0b0f19; color: #ffffff; line-height: 1.6; }
+    :root {
+      --bg-deep: #030712;
+      --bg-card: #0f172a;
+      --bg-card-hover: #1e293b;
+      --accent-cyan: #06b6d4;
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --border-glow: rgba(6, 182, 212, 0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    body { background-color: var(--bg-deep); color: var(--text-main); line-height: 1.6; }
     
     /* Header & Navigation */
-    header { background: #111827; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; position: sticky; top: 0; z-index: 1000; }
-    .logo { font-size: 24px; font-weight: bold; color: #00df9a; }
-    .nav-links a { color: #fff; text-decoration: none; margin-left: 25px; transition: 0.3s; font-weight: 500; }
-    .nav-links a:hover { color: #00df9a; }
+    header { 
+      background: rgba(3, 7, 18, 0.85); 
+      backdrop-filter: blur(12px); 
+      padding: 18px 50px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 1px solid var(--border-color); 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+    }
+    .logo { 
+      font-size: 22px; 
+      font-weight: 800; 
+      letter-spacing: 0.5px; 
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 30px; transition: 0.25s ease; font-size: 14px; font-weight: 600; }
+    .nav-links a:hover { color: var(--accent-cyan); text-shadow: 0 0 10px rgba(6, 182, 212, 0.4); }
 
     /* Hero Section */
-    .hero { text-align: center; padding: 100px 20px; background: linear-gradient(180deg, #111827 0%, #0b0f19 100%); }
-    .hero h1 { font-size: 48px; margin-bottom: 15px; }
-    .hero span { color: #00df9a; }
-    .hero p { font-size: 18px; color: #9ca3af; max-width: 700px; margin: 0 auto 30px; }
-    .btn { background: #00df9a; color: #000; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; }
-    .btn:hover { background: #00b37e; }
+    .hero { 
+      text-align: center; 
+      padding: 120px 20px 80px; 
+      background: radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 60%);
+    }
+    .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; }
+    .hero span { 
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 650px; margin: 0 auto 35px; }
+    
+    .btn { 
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); 
+      color: #030712; 
+      padding: 14px 32px; 
+      text-decoration: none; 
+      font-weight: 700; 
+      border-radius: 8px; 
+      display: inline-block; 
+      transition: all 0.3s ease; 
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+    }
+    .btn:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5);
+    }
 
     /* Containers & Sections */
-    .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 20px; }
-    .section-title { text-align: center; font-size: 38px; margin-bottom: 15px; color: #00df9a; }
-    .section-desc { text-align: center; color: #9ca3af; margin-bottom: 50px; font-size: 16px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 90px 20px 20px; }
+    .section-title { text-align: center; font-size: 36px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); letter-spacing: -0.5px; }
+    .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 50px; font-size: 16px; }
 
     /* Overview Section */
-    .overview { max-width: 900px; margin: 0 auto; text-align: center; }
-    .overview p { color: #9ca3af; font-size: 16px; margin-bottom: 15px; }
+    .overview { 
+      max-width: 850px; 
+      margin: 0 auto; 
+      text-align: center; 
+      background: var(--bg-card); 
+      padding: 40px; 
+      border-radius: 16px; 
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .overview p { color: var(--text-muted); font-size: 16px; margin-bottom: 15px; line-height: 1.8; }
 
     /* Services Cards */
-    .service-card { background: #1f2937; padding: 35px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #374151; }
-    .service-card h3 { font-size: 24px; color: #00df9a; margin-bottom: 15px; }
-    .service-card p { color: #9ca3af; margin-bottom: 15px; }
-    .service-card ul { list-style-type: square; margin-left: 20px; color: #d1d5db; }
-    .service-card li { margin-bottom: 8px; }
+    .service-card { 
+      background: var(--bg-card); 
+      padding: 40px; 
+      border-radius: 16px; 
+      margin-bottom: 30px; 
+      border: 1px solid var(--border-color); 
+      transition: all 0.3s ease;
+    }
+    .service-card:hover { 
+      border-color: var(--border-glow); 
+      transform: translateY(-3px);
+      background: var(--bg-card-hover);
+    }
+    .service-card h3 { font-size: 24px; color: var(--accent-cyan); margin-bottom: 15px; font-weight: 700; }
+    .service-card p { color: var(--text-muted); margin-bottom: 20px; font-size: 15px; }
+    .service-card ul { list-style-type: none; }
+    .service-card li { margin-bottom: 10px; color: var(--text-main); font-size: 14px; position: relative; padding-left: 20px; }
+    .service-card li::before { content: "▪"; color: var(--accent-cyan); position: absolute; left: 0; font-size: 16px; }
 
     /* Grid for Team */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-    .card { background: #1f2937; padding: 30px; border-radius: 10px; text-align: center; border: 1px solid #374151; }
-    .card h3 { color: #fff; margin-bottom: 5px; font-size: 22px; }
-    .role { color: #00df9a; font-weight: bold; margin-bottom: 15px; display: block; font-size: 14px; }
-    .card p { color: #9ca3af; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+    .card { 
+      background: var(--bg-card); 
+      padding: 35px; 
+      border-radius: 16px; 
+      text-align: center; 
+      border: 1px solid var(--border-color); 
+      transition: all 0.3s ease;
+    }
+    .card:hover { 
+      border-color: var(--border-glow); 
+      transform: translateY(-3px);
+    }
+    .card h3 { color: var(--text-main); margin-bottom: 8px; font-size: 22px; font-weight: 700; }
+    .role { color: var(--accent-green); font-weight: 700; margin-bottom: 15px; display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
 
     /* Contact Box */
-    .contact-card { background: #1f2937; padding: 40px; border-radius: 10px; border: 1px solid #00df9a; text-align: center; max-width: 800px; margin: 0 auto; }
-    .contact-card h3 { font-size: 24px; margin-bottom: 25px; color: #fff; }
-    .contact-item { font-size: 18px; margin-bottom: 20px; color: #9ca3af; }
-    .contact-item a { color: #00df9a; text-decoration: none; font-weight: bold; }
-    .contact-item a:hover { text-decoration: underline; }
+    .contact-card { 
+      background: var(--bg-card); 
+      padding: 50px; 
+      border-radius: 16px; 
+      border: 1px solid var(--border-glow); 
+      text-align: center; 
+      max-width: 800px; 
+      margin: 0 auto; 
+      box-shadow: 0 0 40px rgba(6, 182, 212, 0.05);
+    }
+    .contact-card h3 { font-size: 26px; margin-bottom: 30px; color: var(--text-main); }
+    .contact-item { font-size: 16px; margin-bottom: 22px; color: var(--text-muted); }
+    .contact-item a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; transition: 0.2s; }
+    .contact-item a:hover { color: var(--accent-blue); text-decoration: underline; }
 
     /* Footer */
-    footer { text-align: center; padding: 25px; background: #111827; color: #6b7280; margin-top: 80px; border-top: 1px solid #1f2937; }
+    footer { text-align: center; padding: 30px; background: var(--bg-deep); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-color); font-size: 14px; }
   </style>
 </head>
 <body>
 
   <!-- Header & Navigation -->
   <header>
-    <div class="logo">📈 Rogue Markets</div>
+    <div class="logo">⚡ ROGUE MARKETS</div>
     <div class="nav-links">
       <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#team">Team</a>
-      <a href="#contact">Contact Us</a>
+      <a href="#contact">Contact</a>
     </div>
   </header>
 
-  <!-- Hero Section (Home) -->
+  <!-- Hero Section -->
   <section id="home" class="hero">
-    <h1>Welcome to <span>Rogue Markets</span></h1>
-    <p>Mastering global financial markets through advanced strategies, expert fund management, and elite trading education.</p>
-    <a href="#contact" class="btn">Get In Touch</a>
+    <h1>Institutional Grade <span>Trading & Funds</span></h1>
+    <p>Mastering global financial markets through advanced algorithms, elite fund management, and professional risk execution.</p>
+    <a href="#contact" class="btn">Initialize Contact</a>
   </section>
 
   <!-- Overview Section -->
   <div class="container">
     <div class="overview">
-      <h2 style="color: #00df9a; font-size: 32px; margin-bottom: 20px;">Company Overview</h2>
-      <p>At Rogue Markets, we specialize in high-performance trading across Forex, Crypto, and Stock Exchanges. Our institutional-grade risk management combined with deep market analytics ensures consistent growth and asset security for our clients.</p>
-      <p>Whether you want your investment accounts managed professionally or wish to master trading yourself, our expert team provides the right guidance and infrastructure.</p>
+      <h2 style="color: var(--accent-cyan); font-size: 28px; margin-bottom: 20px; font-weight: 700;">Executive Overview</h2>
+      <p>Rogue Markets operates at the cutting edge of multi-asset trading, specializing in Forex, Cryptocurrencies, and Stock Exchange liquidity pools. We implement rigorous, institutional-grade mathematical risk architectures designed to optimize capital allocation and compound returns consistently.</p>
+      <p>Whether deploying capital via our managed funds or mentoring through elite technical frameworks, our infrastructure ensures uncompromised performance and security.</p>
     </div>
   </div>
 
   <!-- Services Section -->
   <div id="services" class="container">
-    <h2 class="section-title">Our Professional Services</h2>
-    <p class="section-desc">Comprehensive financial solutions customized for maximum profitability and risk control.</p>
+    <h2 class="section-title">Core Services</h2>
+    <p class="section-desc">Engineered financial solutions built for absolute performance and risk control.</p>
 
     <div class="service-card">
-      <h3>💰 1. Fund Management</h3>
-      <p>We manage private and corporate capital across major international markets with strict risk-to-reward ratios. Our institutional strategies aim for steady compound growth while protecting principal capital.</p>
+      <h3>📈 01. Fund Management</h3>
+      <p>Institutional capital allocation across international exchanges with dynamic drawdown protection and automated risk parameters.</p>
       <ul>
-        <li>Detailed portfolio allocation across Forex, Crypto, and Stocks.</li>
-        <li>Real-time performance metrics and transparent reporting.</li>
-        <li>Strict multi-layered risk mitigation and drawdown control.</li>
+        <li>Advanced portfolio balancing across Forex, Crypto, and Equities.</li>
+        <li>Transparent real-time telemetry and auditing metrics.</li>
+        <li>Strict mathematical risk-to-reward boundary enforcement.</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <h3>🎓 2. Professional Trading Education</h3>
-      <p>Transform from a beginner to a consistently profitable trader through our rigorous education programs. We teach core concepts, technical indicators, price action, and psychological discipline.</p>
+      <h3>💻 02. Professional Trading Education</h3>
+      <p>Rigorous, data-backed training models that take traders from foundational mechanics to proprietary execution frameworks.</p>
       <ul>
-        <li>Comprehensive modules on Forex, Crypto, and Stock Exchange trading.</li>
-        <li>Live market session breakdowns and practical case studies.</li>
-        <li>Risk management frameworks used by professional proprietary traders.</li>
+        <li>High-probability price action and order-flow mastery.</li>
+        <li>Live market dissection and psychological risk management.</li>
+        <li>Quantitative strategy development and backtesting protocols.</li>
       </ul>
     </div>
 
     <div class="service-card">
-      <h3>📊 3. Account Management & Strategy Consulting</h3>
-      <p>Tailored account handling services for investors looking to optimize their personal brokerage accounts or implement automated trading algorithms.</p>
+      <h3>🛡️ 03. Account Management & Consulting</h3>
+      <p>Custom account handling and infrastructure consulting tailored for high-net-worth investors and private syndicates.</p>
       <ul>
-        <li>Customized trade setups based on individual risk appetite.</li>
-        <li>Ongoing analytical support and performance evaluation.</li>
-        <li>Guidance on broker selection and execution speed optimization.</li>
+        <li>Tailored risk-appetite structuring and execution speed tuning.</li>
+        <li>Proprietary algorithmic tool integration.</li>
+        <li>Deep-dive macro analysis and trend forecasting.</li>
       </ul>
     </div>
   </div>
 
   <!-- Team Section -->
   <div id="team" class="container">
-    <h2 class="section-title">Meet Our Expert Team</h2>
-    <p class="section-desc">Experienced professionals dedicated to your financial success in global markets.</p>
+    <h2 class="section-title">Leadership & Execution</h2>
+    <p class="section-desc">Seasoned quantitative strategists and market technicians.</p>
 
     <div class="grid">
       <div class="card">
         <h3>Ali Bhai</h3>
-        <span class="role">Founder & Lead Forex/Crypto Trader</span>
-        <p>Specializes in advanced price action analysis, macroeconomic trends, and high-probability setup identification across currency and digital asset pairs.</p>
+        <span class="role">Founder & Lead Strategist</span>
+        <p>Specializes in macroeconomic structural analysis, high-frequency price action mapping, and digital asset liquidity tracking.</p>
       </div>
       <div class="card">
         <h3>Senior Fund Manager</h3>
-        <span class="role">Stock Exchange & Portfolio Strategist</span>
-        <p>Expert in equities allocation, corporate finance structure, and balancing long-term risk vectors for institutional fund portfolios.</p>
+        <span class="role">Equities & Risk Director</span>
+        <p>Expert in stock exchange capitalization models, systemic volatility mitigation, and long-term portfolio growth vectors.</p>
       </div>
       <div class="card">
         <h3>Head of Education</h3>
-        <span class="role">Trading Mentor & Risk Analyst</span>
-        <p>Focused on training aspiring traders, developing curriculum benchmarks, and mentoring students through psychological risk controls.</p>
+        <span class="role">Quantitative Mentor</span>
+        <p>Focused on cultivating disciplined retail and institutional market participants through structured analytical curriculums.</p>
       </div>
     </div>
   </div>
 
   <!-- Contact Us Section -->
-  <div id="contact" class="container" style="margin-bottom: 60px;">
-    <h2 class="section-title">Get In Touch</h2>
-    <p class="section-desc">Ready to partner with us or start your trading journey? Reach out to us directly.</p>
+  <div id="contact" class="container" style="margin-bottom: 80px;">
+    <h2 class="section-title">Secure Connection</h2>
+    <p class="section-desc">Direct access channels for capital partnership and program enrollment.</p>
 
     <div class="contact-card">
-      <h3>Direct Communication Channels</h3>
+      <h3>Direct Communication Protocols</h3>
       <div class="contact-item">
-        📧 Email: <br>
+        📧 Terminal Email: <br>
         <a href="mailto:alibhai.4info@gmail.com">alibhai.4info@gmail.com</a>
       </div>
-      <div class="contact-item" style="margin-top: 30px;">
-        📱 WhatsApp / Phone: <br>
+      <div class="contact-item" style="margin-top: 25px;">
+        📱 Direct WhatsApp Node: <br>
         <a href="https://wa.me/923012928787" target="_blank">+92 301 2928787</a>
       </div>
-      <div>
-        <a href="https://wa.me/923012928787" class="btn" target="_blank">Chat on WhatsApp Now</a>
+      <div style="margin-top: 30px;">
+        <a href="https://wa.me/923012928787" class="btn" target="_blank">Launch WhatsApp Chat</a>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Rogue Markets. All rights reserved.</p>
+    <p>&copy; 2026 Rogue Markets. All rights reserved. Built for high-frequency execution.</p>
   </footer>
 
 </body>
