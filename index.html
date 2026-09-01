@@ -483,7 +483,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const SUPABASE_URL = 'https://meirbgubkltpjdbyomlh.supabase.co';
-      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1laXJiZ3Via2x0cGpkYnpvbWxoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyODE2NjYsImV4cCI6MjEwMzg1NzY2Nn0.vFuhqJWToKHUu3LM_d8q_nBK4zmiijf-9D0JiQDXOrY';
+      const SUPABASE_ANON_KEY = 'sb_publishable_4mcxuh0b2F5Lwx_UfAMtoA_1KDW7OAt';
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const adminEmails = ["mahmoodoffice9@gmail.com", "roguemarkets1@gmail.com"];
 
@@ -608,7 +608,6 @@
             <button class="btn-outline" id="openLoginBtn">Login</button>
             <button class="btn-primary" id="openSignupBtn" style="padding: 8px 16px; font-size: 13px;">Sign Up</button>
           `;
-          // Re-bind listeners for re-created buttons
           document.getElementById('openLoginBtn').addEventListener('click', () => loginModal.style.display = 'flex');
           document.getElementById('openSignupBtn').addEventListener('click', () => signupModal.style.display = 'flex');
         }
