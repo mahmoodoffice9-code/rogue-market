@@ -132,6 +132,15 @@
     .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag { background: rgba(0, 230, 118, 0.03); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--accent-green); }
 
+    /* Team Grid Section */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .team-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; overflow: hidden; text-align: center; padding: 30px 20px; transition: 0.3s; }
+    .team-card:hover { border-color: var(--accent-green); transform: translateY(-5px); }
+    .team-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px; border: 2px solid var(--accent-green); box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
+    .team-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+    .team-title { font-size: 13px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; margin-bottom: 15px; }
+    .team-contact { font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
     .price-card { background: var(--bg-card); padding: 45px 35px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
     .price-card.popular { border-color: var(--accent-green); background: linear-gradient(145deg, var(--bg-card), #121f19); }
@@ -237,6 +246,7 @@
     <div class="logo">⚡ ROGUE MARKETS</div>
     <div class="nav-links">
       <a href="#services">Core Services</a>
+      <a href="#team">Our Team</a>
       <a href="#pricing">Investment Tiers</a>
       <a href="#cases">Fund Performance</a>
       <a href="#about">About Firm</a>
@@ -290,6 +300,17 @@
         <p>Custom account handling and infrastructure consulting tailored for high-net-worth investors and private syndicates.</p>
         <div class="tech-tags"><span class="tag">Risk Structuring</span><span class="tag">Macro Analysis</span><span class="tag">Speed Tuning</span></div>
       </div>
+    </div>
+  </div>
+
+  <!-- OUR TEAM SECTION -->
+  <div id="team" class="container">
+    <h2 class="section-title">Executive Leadership & Fund Managers</h2>
+    <p class="section-desc">Meet the professional quantitative traders and risk strategists driving institutional performance.</p>
+    
+    <div class="team-grid" id="publicTeamGrid">
+      <!-- Dynamic Team Members will load here -->
+      <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">Loading executive team profiles...</div>
     </div>
   </div>
 
@@ -385,21 +406,33 @@
     <!-- Admin Panel Section -->
     <div id="admin-panel">
       <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Dashboard</h3>
-      <p style="color: var(--text-muted); font-size: 13px;">Restricted Console — Registered Users & Live Client Chats.</p>
+      <p style="color: var(--text-muted); font-size: 13px;">Restricted Console — Registered Users, Live Client Chats & Team Management.</p>
       
+      <!-- TEAM SETUP FORM IN ADMIN -->
+      <div style="background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 20px;">
+        <h4 style="color: var(--accent-green); margin-bottom: 12px; font-size: 15px;">👥 Add / Setup Team Member</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <div class="form-group" style="margin-bottom:0;"><label>Member Name</label><input type="text" id="adminTeamName" placeholder="e.g. Alex Vance"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Title / Role</label><input type="text" id="adminTeamTitle" placeholder="e.g. Chief Quant Strategist"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Email Address</label><input type="email" id="adminTeamEmail" placeholder="e.g. alex@roguemarkets.com"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Phone Number</label><input type="text" id="adminTeamPhone" placeholder="e.g. +92 300 1234567"></div>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 10px; align-items: center;">
+          <div class="form-group" style="margin-bottom:0; flex:1;"><label>Profile Picture URL</label><input type="text" id="adminTeamImage" placeholder="Paste Image URL (e.g. Unsplash link)"></div>
+          <button class="btn-primary" id="addTeamBtn" style="margin-top: 18px; padding: 11px 20px;">Add Member 🚀</button>
+        </div>
+      </div>
+
       <!-- Live Chat Inbox UI for Admin -->
       <div class="admin-grid">
         <div class="chat-users-list" id="adminChatUsersList">
           <div style="font-size: 11px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; margin-bottom: 8px;">Active Chats 💬</div>
-          <!-- User chats list will load here -->
         </div>
         <div class="chat-room">
           <div style="font-size: 13px; font-weight: 700; color: var(--accent-green); margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;" id="adminActiveChatHeader">
             Select a user to chat 👆
           </div>
-          <div class="messages-box" id="adminMessagesBox">
-            <!-- Messages load here -->
-          </div>
+          <div class="messages-box" id="adminMessagesBox"></div>
           <div class="chat-input-area">
             <input type="text" id="adminInput" placeholder="Type reply as admin...">
             <button class="btn-primary" id="sendAdminBtn" style="padding: 8px 14px; font-size: 12px;">Send</button>
@@ -418,9 +451,24 @@
               <th>Joined At</th>
             </tr>
           </thead>
-          <tbody id="adminUsersTableBody">
-            <!-- Data will load dynamically from database -->
-          </tbody>
+          <tbody id="adminUsersTableBody"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 30px; overflow-x: auto;">
+        <div style="font-size: 12px; font-weight: 700; color: var(--accent-green); margin-bottom: 8px; text-transform: uppercase;">Manage Team Members 👥</div>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTeamTableBody"></tbody>
         </table>
       </div>
     </div>
@@ -507,7 +555,7 @@
     <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
 
-  <!-- Bulletproof JS & Custom Chat Logic -->
+  <!-- Bulletproof JS & Custom Logic -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const SUPABASE_URL = 'https://meirbgubkltpjdbzomlh.supabase.co';
@@ -517,6 +565,9 @@
 
       let selectedChatEmail = null;
       let chatInterval = null;
+
+      // Load Public Team Members on startup
+      loadPublicTeam();
 
       // Modal Triggers
       const loginModal = document.getElementById('loginModal');
@@ -543,7 +594,6 @@
 
         if (!isOpen) {
           loadClientMessages();
-          // Poll client chat every 3 seconds
           chatInterval = setInterval(loadClientMessages, 3000);
         } else {
           clearInterval(chatInterval);
@@ -682,7 +732,102 @@
       async function loadAdminData() {
         loadAdminUsers();
         loadAdminChatUsers();
+        loadAdminTeamTable();
       }
+
+      // Load Public Team Members
+      async function loadPublicTeam() {
+        const grid = document.getElementById('publicTeamGrid');
+        const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: true });
+
+        if (error || !team || team.length === 0) {
+          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px;">No executive team profiles published yet.</div>`;
+          return;
+        }
+
+        grid.innerHTML = '';
+        team.forEach(m => {
+          grid.innerHTML += `
+            <div class="team-card">
+              <img src="${m.image_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'}" alt="${m.name}" class="team-avatar">
+              <h3>${m.name}</h3>
+              <div class="team-title">${m.title}</div>
+              <div class="team-contact">📧 ${m.email}</div>
+              <div class="team-contact">📞 ${m.phone}</div>
+            </div>
+          `;
+        });
+      }
+
+      // Add Team Member via Admin Panel
+      document.getElementById('addTeamBtn').addEventListener('click', async () => {
+        const name = document.getElementById('adminTeamName').value.trim();
+        const title = document.getElementById('adminTeamTitle').value.trim();
+        const email = document.getElementById('adminTeamEmail').value.trim();
+        const phone = document.getElementById('adminTeamPhone').value.trim();
+        const image_url = document.getElementById('adminTeamImage').value.trim() || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300';
+
+        if (!name || !title || !email || !phone) {
+          alert("Team member ki saari mandatory fields fill karein!");
+          return;
+        }
+
+        const { error } = await supabase.from('team_members').insert([{ name, title, email, phone, image_url }]);
+
+        if (error) {
+          alert("Error adding team member: " + error.message);
+          return;
+        }
+
+        alert("Team member successfully add ho gaya! 🎉");
+        document.getElementById('adminTeamName').value = '';
+        document.getElementById('adminTeamTitle').value = '';
+        document.getElementById('adminTeamEmail').value = '';
+        document.getElementById('adminTeamPhone').value = '';
+        document.getElementById('adminTeamImage').value = '';
+
+        loadAdminTeamTable();
+        loadPublicTeam();
+      });
+
+      // Load Admin Team Table for Deletion/Management
+      async function loadAdminTeamTable() {
+        const tbody = document.getElementById('adminTeamTableBody');
+        const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: false });
+
+        if (error || !team || team.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Koi team member add nahi kiya gaya.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = '';
+        team.forEach(m => {
+          tbody.innerHTML += `
+            <tr>
+              <td><img src="${m.image_url}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;"></td>
+              <td>${m.name}</td>
+              <td style="color: var(--accent-green);">${m.title}</td>
+              <td>${m.email}</td>
+              <td>${m.phone}</td>
+              <td><button class="btn-outline" style="padding: 4px 8px; font-size: 11px; border-color: #ef4444; color: #ef4444;" onclick="deleteTeamMember('${m.id}')">Delete</button></td>
+            </tr>
+          `;
+        });
+      }
+
+      // Delete Team Member
+      window.deleteTeamMember = async function(id) {
+        if (!confirm("Kya aap waqai is team member ko remove karna chahte hain?")) return;
+
+        const { error } = await supabase.from('team_members').delete().eq('id', id);
+        if (error) {
+          alert("Error: " + error.message);
+          return;
+        }
+
+        loadAdminTeamTable();
+        loadPublicTeam();
+      };
 
       // Load Users List for Admin Table
       async function loadAdminUsers() {
@@ -718,7 +863,6 @@
           return;
         }
 
-        // Unique users list extract karein based on email
         const uniqueUsers = {};
         messages.forEach(m => {
           if (!uniqueUsers[m.user_email]) {
@@ -738,12 +882,11 @@
         }
       }
 
-      // Select Specific User Chat as Admin
       window.selectAdminChat = function(email, name) {
         selectedChatEmail = email;
         document.getElementById('adminActiveChatHeader').innerHTML = `💬 Chat with: <span style="color: var(--accent-green);">${name}</span> (${email})`;
         loadAdminMessages(email);
-        loadAdminChatUsers(); // Refresh active list highlights
+        loadAdminChatUsers();
       }
 
       async function loadAdminMessages(email) {
@@ -770,7 +913,6 @@
         box.scrollTop = box.scrollHeight;
       }
 
-      // Send Message as Admin
       document.getElementById('sendAdminBtn').addEventListener('click', async () => {
         const input = document.getElementById('adminInput');
         const text = input.value.trim();
@@ -780,8 +922,6 @@
           return;
         }
         if (!text) return;
-
-        const session = JSON.parse(localStorage.getItem('rogue_user'));
 
         const { error } = await supabase.from('messages').insert([{
           user_email: selectedChatEmail,
@@ -799,7 +939,6 @@
         loadAdminMessages(selectedChatEmail);
       });
 
-      // Load Client Chat Messages (For Logged In User)
       async function loadClientMessages() {
         const session = JSON.parse(localStorage.getItem('rogue_user'));
         if (!session) return;
@@ -827,7 +966,6 @@
         box.scrollTop = box.scrollHeight;
       }
 
-      // Send Message as Client
       const sendClientMsg = async () => {
         const input = document.getElementById('clientInput');
         const text = input.value.trim();
