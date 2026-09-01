@@ -3,41 +3,170 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rogue Markets - Home</title>
+  <title>Rogue Markets - Trading & Fund Management</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth; }
     body { background-color: #0b0f19; color: #ffffff; line-height: 1.6; }
-    header { background: #111827; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; }
+    
+    /* Header & Navigation */
+    header { background: #111827; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; position: sticky; top: 0; z-index: 1000; }
     .logo { font-size: 24px; font-weight: bold; color: #00df9a; }
-    .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; transition: 0.3s; }
-    .nav-links a:hover, .nav-links a.active { color: #00df9a; }
+    .nav-links a { color: #fff; text-decoration: none; margin-left: 25px; transition: 0.3s; font-weight: 500; }
+    .nav-links a:hover { color: #00df9a; }
+
+    /* Hero Section */
     .hero { text-align: center; padding: 100px 20px; background: linear-gradient(180deg, #111827 0%, #0b0f19 100%); }
     .hero h1 { font-size: 48px; margin-bottom: 15px; }
     .hero span { color: #00df9a; }
-    .hero p { font-size: 18px; color: #9ca3af; max-width: 600px; margin: 0 auto 30px; }
-    .btn { background: #00df9a; color: #000; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; }
+    .hero p { font-size: 18px; color: #9ca3af; max-width: 700px; margin: 0 auto 30px; }
+    .btn { background: #00df9a; color: #000; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block; transition: 0.3s; }
     .btn:hover { background: #00b37e; }
-    footer { text-align: center; padding: 20px; background: #111827; color: #6b7280; margin-top: 50px; position: fixed; bottom: 0; width: 100%; }
+
+    /* Containers & Sections */
+    .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px 20px; }
+    .section-title { text-align: center; font-size: 38px; margin-bottom: 15px; color: #00df9a; }
+    .section-desc { text-align: center; color: #9ca3af; margin-bottom: 50px; font-size: 16px; }
+
+    /* Overview Section */
+    .overview { max-width: 900px; margin: 0 auto; text-align: center; }
+    .overview p { color: #9ca3af; font-size: 16px; margin-bottom: 15px; }
+
+    /* Services Cards */
+    .service-card { background: #1f2937; padding: 35px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #374151; }
+    .service-card h3 { font-size: 24px; color: #00df9a; margin-bottom: 15px; }
+    .service-card p { color: #9ca3af; margin-bottom: 15px; }
+    .service-card ul { list-style-type: square; margin-left: 20px; color: #d1d5db; }
+    .service-card li { margin-bottom: 8px; }
+
+    /* Grid for Team */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .card { background: #1f2937; padding: 30px; border-radius: 10px; text-align: center; border: 1px solid #374151; }
+    .card h3 { color: #fff; margin-bottom: 5px; font-size: 22px; }
+    .role { color: #00df9a; font-weight: bold; margin-bottom: 15px; display: block; font-size: 14px; }
+    .card p { color: #9ca3af; font-size: 14px; }
+
+    /* Contact Box */
+    .contact-card { background: #1f2937; padding: 40px; border-radius: 10px; border: 1px solid #00df9a; text-align: center; max-width: 800px; margin: 0 auto; }
+    .contact-card h3 { font-size: 24px; margin-bottom: 25px; color: #fff; }
+    .contact-item { font-size: 18px; margin-bottom: 20px; color: #9ca3af; }
+    .contact-item a { color: #00df9a; text-decoration: none; font-weight: bold; }
+    .contact-item a:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer { text-align: center; padding: 25px; background: #111827; color: #6b7280; margin-top: 80px; border-top: 1px solid #1f2937; }
   </style>
 </head>
 <body>
 
+  <!-- Header & Navigation -->
   <header>
     <div class="logo">📈 Rogue Markets</div>
     <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="services.html">Services</a>
-      <a href="team.html">Team</a>
-      <a href="contact.html">Contact Us</a>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact Us</a>
     </div>
   </header>
 
-  <section class="hero">
+  <!-- Hero Section (Home) -->
+  <section id="home" class="hero">
     <h1>Welcome to <span>Rogue Markets</span></h1>
-    <p>Your trusted partner in professional Forex, Crypto, and Stock Exchange trading & fund management.</p>
-    <a href="services.html" class="btn">Explore Our Services</a>
+    <p>Mastering global financial markets through advanced strategies, expert fund management, and elite trading education.</p>
+    <a href="#contact" class="btn">Get In Touch</a>
   </section>
 
+  <!-- Overview Section -->
+  <div class="container">
+    <div class="overview">
+      <h2 style="color: #00df9a; font-size: 32px; margin-bottom: 20px;">Company Overview</h2>
+      <p>At Rogue Markets, we specialize in high-performance trading across Forex, Crypto, and Stock Exchanges. Our institutional-grade risk management combined with deep market analytics ensures consistent growth and asset security for our clients.</p>
+      <p>Whether you want your investment accounts managed professionally or wish to master trading yourself, our expert team provides the right guidance and infrastructure.</p>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <div id="services" class="container">
+    <h2 class="section-title">Our Professional Services</h2>
+    <p class="section-desc">Comprehensive financial solutions customized for maximum profitability and risk control.</p>
+
+    <div class="service-card">
+      <h3>💰 1. Fund Management</h3>
+      <p>We manage private and corporate capital across major international markets with strict risk-to-reward ratios. Our institutional strategies aim for steady compound growth while protecting principal capital.</p>
+      <ul>
+        <li>Detailed portfolio allocation across Forex, Crypto, and Stocks.</li>
+        <li>Real-time performance metrics and transparent reporting.</li>
+        <li>Strict multi-layered risk mitigation and drawdown control.</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <h3>🎓 2. Professional Trading Education</h3>
+      <p>Transform from a beginner to a consistently profitable trader through our rigorous education programs. We teach core concepts, technical indicators, price action, and psychological discipline.</p>
+      <ul>
+        <li>Comprehensive modules on Forex, Crypto, and Stock Exchange trading.</li>
+        <li>Live market session breakdowns and practical case studies.</li>
+        <li>Risk management frameworks used by professional proprietary traders.</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <h3>📊 3. Account Management & Strategy Consulting</h3>
+      <p>Tailored account handling services for investors looking to optimize their personal brokerage accounts or implement automated trading algorithms.</p>
+      <ul>
+        <li>Customized trade setups based on individual risk appetite.</li>
+        <li>Ongoing analytical support and performance evaluation.</li>
+        <li>Guidance on broker selection and execution speed optimization.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Team Section -->
+  <div id="team" class="container">
+    <h2 class="section-title">Meet Our Expert Team</h2>
+    <p class="section-desc">Experienced professionals dedicated to your financial success in global markets.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Ali Bhai</h3>
+        <span class="role">Founder & Lead Forex/Crypto Trader</span>
+        <p>Specializes in advanced price action analysis, macroeconomic trends, and high-probability setup identification across currency and digital asset pairs.</p>
+      </div>
+      <div class="card">
+        <h3>Senior Fund Manager</h3>
+        <span class="role">Stock Exchange & Portfolio Strategist</span>
+        <p>Expert in equities allocation, corporate finance structure, and balancing long-term risk vectors for institutional fund portfolios.</p>
+      </div>
+      <div class="card">
+        <h3>Head of Education</h3>
+        <span class="role">Trading Mentor & Risk Analyst</span>
+        <p>Focused on training aspiring traders, developing curriculum benchmarks, and mentoring students through psychological risk controls.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Us Section -->
+  <div id="contact" class="container" style="margin-bottom: 60px;">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-desc">Ready to partner with us or start your trading journey? Reach out to us directly.</p>
+
+    <div class="contact-card">
+      <h3>Direct Communication Channels</h3>
+      <div class="contact-item">
+        📧 Email: <br>
+        <a href="mailto:alibhai.4info@gmail.com">alibhai.4info@gmail.com</a>
+      </div>
+      <div class="contact-item" style="margin-top: 30px;">
+        📱 WhatsApp / Phone: <br>
+        <a href="https://wa.me/923012928787" target="_blank">+92 301 2928787</a>
+      </div>
+      <div>
+        <a href="https://wa.me/923012928787" class="btn" target="_blank">Chat on WhatsApp Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2026 Rogue Markets. All rights reserved.</p>
   </footer>
