@@ -80,17 +80,26 @@
     .section-title { text-align: center; font-size: 38px; font-weight: 800; margin-bottom: 12px; color: var(--text-main); letter-spacing: -0.5px; }
     .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 16px; }
 
-    /* Overview Section */
+    /* Overview Section (Empowering Your Financial Future) */
     .overview { 
       max-width: 900px; 
       margin: 0 auto; 
       text-align: center; 
       background: var(--bg-card); 
-      padding: 45px; 
+      padding: 50px; 
       border-radius: 20px; 
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-glow);
       box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
     }
+    .overview::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+    }
+    .overview h2 { color: var(--accent-cyan); font-size: 30px; margin-bottom: 20px; font-weight: 700; }
     .overview p { color: var(--text-muted); font-size: 16px; margin-bottom: 15px; line-height: 1.8; }
 
     /* Services Grid Design (Attractive Cards) */
@@ -225,9 +234,9 @@
   <!-- Overview Section -->
   <div class="container">
     <div class="overview">
-      <h2 style="color: var(--accent-cyan); font-size: 28px; margin-bottom: 20px; font-weight: 700;">Executive Overview</h2>
-      <p>Rogue Markets operates at the cutting edge of multi-asset trading, specializing in Forex, Cryptocurrencies, and Stock Exchange liquidity pools. We implement rigorous, institutional-grade mathematical risk architectures designed to optimize capital allocation and compound returns consistently.</p>
-      <p>Whether deploying capital via our managed funds or mentoring through elite technical frameworks, our infrastructure ensures uncompromised performance and security.</p>
+      <h2>Empowering Your Financial Future 💼</h2>
+      <p>Navigating global financial markets demands precision, strategy, and uncompromised security. Whether you are looking to entrust your capital to seasoned fund managers or master the art of trading yourself, Rogue Markets delivers the infrastructure, transparency, and expert mentorship needed to succeed in competitive markets.</p>
+      <p>Our institutional-grade frameworks ensure that every trade and portfolio allocation is backed by deep analytics and strict risk control.</p>
     </div>
   </div>
 
@@ -299,7 +308,7 @@
     </div>
   </div>
 
-  <!-- Contact Us Section (High-End Design) -->
+  <!-- Contact Us Section -->
   <div id="contact" class="container" style="margin-bottom: 80px;">
     <h2 class="section-title">Secure Connection</h2>
     <p class="section-desc">Direct access channels for capital partnership and program enrollment.</p>
