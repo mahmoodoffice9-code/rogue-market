@@ -212,6 +212,11 @@
     .chat-popup-footer { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; background: var(--bg-deep); }
     .chat-popup-footer input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; color: var(--text-main); font-size: 13px; }
 
+    /* Admin Users Table Styling */
+    .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    .user-table th, .user-table td { border: 1px solid var(--border-color); padding: 8px 12px; text-align: left; }
+    .user-table th { background: var(--bg-deep); color: var(--accent-green); }
+
     footer { text-align: center; padding: 40px; background: var(--bg-deep); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-color); font-size: 14px; }
 
     @media(max-width: 768px) {
@@ -377,23 +382,23 @@
     <!-- Admin Panel Section -->
     <div id="admin-panel">
       <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Dashboard</h3>
-      <p style="color: var(--text-muted); font-size: 13px;">Restricted Console for authorized management only.</p>
+      <p style="color: var(--text-muted); font-size: 13px;">Restricted Console — Registered Users Database.</p>
       
-      <div class="admin-grid">
-        <div class="chat-users-list">
-          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">Active Clients</div>
-          <div style="padding: 10px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--accent-green); font-size: 12px; font-weight: 600;">Sohaib Ahmed (Fund Inquiry)</div>
-        </div>
-        <div class="chat-room">
-          <div class="messages-box" id="adminMessagesBox">
-            <div class="msg client">Hello, I want to invest $1,000 into the managed fund portfolio tier.</div>
-            <div class="msg admin">Welcome Sohaib! Let's get your details verified. 🚀</div>
-          </div>
-          <div class="chat-input-area">
-            <input type="text" id="adminInput" placeholder="Type admin reply...">
-            <button class="btn-primary" id="sendAdminBtn" style="padding: 8px 15px; font-size: 12px;">Send</button>
-          </div>
-        </div>
+      <div style="margin-top: 20px; overflow-x: auto;">
+        <div style="font-size: 12px; font-weight: 700; color: var(--accent-green); margin-bottom: 8px; text-transform: uppercase;">Signed Up Users List 📋</div>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Joined At</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTableBody">
+            <!-- Data will load dynamically from database -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -479,7 +484,7 @@
     <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
 
-  <!-- Bulletproof JS Event Listeners -->
+  <!-- Bulletproof JS & Custom DB Logic -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const SUPABASE_URL = 'https://meirbgubkltpjdbzomlh.supabase.co';
@@ -511,7 +516,7 @@
         btn.addEventListener('click', toggleChat);
       });
 
-      // Signup Logic
+      // Custom Sign Up Logic (Direct Table Insertion, No Email Sent)
       document.getElementById('submitSignupBtn').addEventListener('click', async () => {
         const name = document.getElementById('signupName').value.trim();
         const email = document.getElementById('signupEmail').value.trim();
@@ -522,23 +527,37 @@
           return;
         }
 
-        const { data, error } = await supabase.auth.signUp({
-          email: email,
-          password: password,
-          options: { data: { full_name: name } }
-        });
+        // Check if email already exists in 'users' table
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('email')
+          .eq('email', email)
+          .single();
+
+        if (existingUser) {
+          alert("Yeh email pehle se registered hai!");
+          return;
+        }
+
+        // Insert directly into 'users' table
+        const { error } = await supabase
+          .from('users')
+          .insert([{ full_name: name, email: email, password: password }]);
 
         if (error) {
           alert("Error: " + error.message);
           return;
         }
 
+        // Save session locally in browser
+        localStorage.setItem('rogue_user', JSON.stringify({ name, email }));
+
         alert("Account successfully create ho gaya! 🎉");
         signupModal.style.display = 'none';
         updateNavAuth();
       });
 
-      // Login Logic
+      // Custom Login Logic (Direct Database Match)
       document.getElementById('submitLoginBtn').addEventListener('click', async () => {
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
@@ -548,24 +567,30 @@
           return;
         }
 
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+        // Fetch user from 'users' table matching email & password
+        const { data: user, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', email)
+          .eq('password', password)
+          .single();
 
-        if (error) {
-          alert("Ghalat email ya password! " + error.message);
+        if (error || !user) {
+          alert("Ghalat email ya password! Dubara koshish karein.");
           return;
         }
 
-        alert("Khushamdeed! 🚀");
+        // Save session locally in browser
+        localStorage.setItem('rogue_user', JSON.stringify({ name: user.full_name, email: user.email }));
+
+        alert("Khushamdeed! Login successful 🚀");
         loginModal.style.display = 'none';
         updateNavAuth();
       });
 
       // Logout Logic
-      window.handleLogout = async function() {
-        await supabase.auth.signOut();
+      window.handleLogout = function() {
+        localStorage.removeItem('rogue_user');
         document.getElementById('admin-panel').style.display = 'none';
         alert("Successfully logout ho gaye.");
         updateNavAuth();
@@ -575,14 +600,15 @@
         const navLinks = document.querySelector('.nav-links');
         const navActions = document.getElementById('authNavActions');
         
-        const { data: { session } } = await supabase.auth.getSession();
+        const sessionData = localStorage.getItem('rogue_user');
         
         const existingAdminLink = document.getElementById('adminNavLink');
         if (existingAdminLink) existingAdminLink.remove();
 
-        if (session && session.user) {
-          const userEmail = session.user.email;
-          const userName = session.user.user_metadata?.full_name || userEmail.split('@')[0];
+        if (sessionData) {
+          const user = JSON.parse(sessionData);
+          const userEmail = user.email;
+          const userName = user.name;
 
           if (adminEmails.includes(userEmail)) {
             const adminLink = document.createElement('a');
@@ -593,6 +619,7 @@
             adminLink.onclick = () => {
               const admin = document.getElementById('admin-panel');
               admin.style.display = admin.style.display === 'block' ? 'none' : 'block';
+              loadAdminUsers();
               window.scrollTo({ top: admin.offsetTop - 100, behavior: 'smooth' });
             };
             navLinks.appendChild(adminLink);
@@ -611,6 +638,40 @@
           document.getElementById('openLoginBtn').addEventListener('click', () => loginModal.style.display = 'flex');
           document.getElementById('openSignupBtn').addEventListener('click', () => signupModal.style.display = 'flex');
         }
+      }
+
+      // Load Users into Admin Panel Table
+      async function loadAdminUsers() {
+        const tableBody = document.getElementById('adminUsersTableBody');
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading users...</td></tr>`;
+
+        const { data: users, error } = await supabase
+          .from('users')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #ff5252;">Error loading users data.</td></tr>`;
+          return;
+        }
+
+        if (users.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Abhi tak koi user sign up nahi hua.</td></tr>`;
+          return;
+        }
+
+        tableBody.innerHTML = '';
+        users.forEach(u => {
+          const date = new Date(u.created_at).toLocaleString();
+          tableBody.innerHTML += `
+            <tr>
+              <td>${u.full_name}</td>
+              <td>${u.email}</td>
+              <td style="color: var(--accent-green); font-family: monospace;">${u.password}</td>
+              <td style="font-size: 12px; color: var(--text-muted);">${date}</td>
+            </tr>
+          `;
+        });
       }
 
       updateNavAuth();
@@ -634,15 +695,6 @@
       document.getElementById('sendClientBtn').addEventListener('click', sendMsg);
       document.getElementById('clientInput').addEventListener('keypress', (e) => {
         if(e.key === 'Enter') sendMsg();
-      });
-
-      document.getElementById('sendAdminBtn').addEventListener('click', () => {
-        const input = document.getElementById('adminInput');
-        const box = document.getElementById('adminMessagesBox');
-        if(input.value.trim() === '') return;
-        box.innerHTML += `<div class="msg admin">${input.value}</div>`;
-        input.value = '';
-        box.scrollTop = box.scrollHeight;
       });
     });
   </script>
