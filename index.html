@@ -45,7 +45,7 @@
     .nav-links { display: flex; align-items: center; gap: 25px; }
     .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.25s ease; font-size: 14px; font-weight: 600; cursor: pointer; }
     .nav-links a:hover { color: var(--accent-green); }
-    .nav-actions { display: flex; gap: 12px; align-items: center; }
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
 
     .btn-outline {
       background: transparent;
@@ -145,12 +145,6 @@
     .price-features { list-style: none; margin-bottom: 30px; border-top: 1px solid var(--border-color); padding-top: 20px; }
     .price-features li { font-size: 13px; color: var(--text-main); margin-bottom: 12px; display: flex; gap: 10px; }
 
-    /* Enterprise Custom Box */
-    .enterprise-box { margin-top: 40px; background: linear-gradient(145deg, var(--bg-card), #121f19); border: 1px solid rgba(0, 230, 118, 0.3); border-radius: 20px; padding: 45px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: center; }
-    .enterprise-box h3 { font-size: 26px; font-weight: 900; margin-bottom: 15px; }
-    .enterprise-box p { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
-    .ent-features { display: flex; gap: 20px; flex-wrap: wrap; list-style: none; font-size: 13px; font-weight: 600; }
-
     /* Case Studies Grid */
     .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
     .case-card { background: var(--bg-card); padding: 35px; border-radius: 20px; border: 1px solid var(--border-color); }
@@ -182,6 +176,27 @@
     .chat-input-area { display: flex; gap: 8px; }
     .chat-input-area input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 6px; color: var(--text-main); font-size: 13px; }
 
+    /* Modals for Auth (Sign Up & Login) */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(5, 7, 6, 0.85); backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center; z-index: 10000;
+    }
+    .modal-box {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      width: 100%; max-width: 400px; padding: 35px; border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8); position: relative;
+    }
+    .modal-box h2 { font-size: 24px; font-weight: 900; margin-bottom: 20px; color: var(--text-main); }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    .form-group input {
+      width: 100%; background: var(--bg-deep); border: 1px solid var(--border-color);
+      padding: 12px; border-radius: 8px; color: var(--text-main); font-size: 14px;
+    }
+    .form-group input:focus { border-color: var(--accent-green); outline: none; }
+    .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 20px; }
+
     /* Floating Live Chat Widget Button & Popup */
     .chat-widget-btn {
       position: fixed; bottom: 30px; right: 30px;
@@ -209,7 +224,7 @@
 
     @media(max-width: 768px) {
       .hero h1 { font-size: 38px; }
-      .enterprise-box, .about-wrapper { grid-template-columns: 1fr; padding: 30px; }
+      .about-wrapper { grid-template-columns: 1fr; padding: 30px; }
       header { padding: 15px 20px; }
       .nav-links { display: none; }
     }
@@ -225,10 +240,12 @@
       <a href="#pricing">Investment Tiers</a>
       <a href="#cases">Fund Performance</a>
       <a href="#about">About Firm</a>
-      <a onclick="toggleAdminPanel()" style="color: var(--accent-green);">🔒 Admin Live Dashboard</a>
+      <a onclick="toggleAdminPanel()" style="color: var(--accent-green);">🔒 Admin Dashboard</a>
     </div>
-    <div class="nav-actions">
-      <a href="https://wa.me/923012928787" target="_blank" class="btn-outline">💬 WhatsApp</a>
+    <div class="nav-actions" id="authNavActions">
+      <!-- Dynamic Auth Buttons -->
+      <button class="btn-outline" onclick="openModal('loginModal')">Login</button>
+      <button class="btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="openModal('signupModal')">Sign Up</button>
     </div>
   </header>
 
@@ -368,10 +385,10 @@
       </div>
     </div>
 
-    <!-- Admin Panel Section (Toggled via Header) -->
+    <!-- Admin Panel Section (Strictly for specified emails) -->
     <div id="admin-panel">
-      <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Chat Node</h3>
-      <p style="color: var(--text-muted); font-size: 13px;">Manage client messages directly from your live website database node.</p>
+      <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Dashboard</h3>
+      <p style="color: var(--text-muted); font-size: 13px;">Restricted Admin Console for authorized leads only.</p>
       
       <div class="admin-grid">
         <div class="chat-users-list">
@@ -412,6 +429,44 @@
     </div>
   </div>
 
+  <!-- SIGN UP MODAL -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal-box">
+      <span class="modal-close" onclick="closeModal('signupModal')">&times;</span>
+      <h2>Create Account ✍️</h2>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="signupEmail" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Enter your password">
+      </div>
+      <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="handleSignup()">Sign Up 🚀</button>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+      <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Welcome Back ⚡</h2>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+      </div>
+      <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="handleLogin()">Login 🔓</button>
+    </div>
+  </div>
+
   <!-- Floating Live Chat Widget Button -->
   <div class="chat-widget-btn" onclick="toggleChat()">💬</div>
 
@@ -435,17 +490,112 @@
     <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
 
-  <!-- Script for Custom Realtime Chat & Toggles -->
+  <!-- Script for Authentication & Access Control -->
   <script>
-    function toggleChat() {
-      const popup = document.getElementById('chatPopup');
-      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    const adminEmails = ["mahmoodoffice9@gmail.com", "roguemarkets1@gmail.com"];
+
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Check logged-in state on page load
+    window.onload = function() {
+      updateNavAuth();
+    };
+
+    function handleSignup() {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+
+      if(!name || !email || !password) {
+        alert("Saari fields lazmi fill karein!");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('rogueUsers')) || [];
+      const exists = users.find(u => u.email === email);
+      if(exists) {
+        alert("Yeh email pehle se registered hai! Login karein.");
+        return;
+      }
+
+      users.push({ name, email, password });
+      localStorage.setItem('rogueUsers', JSON.stringify(users));
+      localStorage.setItem('rogueCurrentUser', JSON.stringify({ name, email }));
+      
+      alert("Account successfully create ho gaya! 🎉");
+      closeModal('signupModal');
+      updateNavAuth();
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if(!email || !password) {
+        alert("Email aur password dono enter karein!");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('rogueUsers')) || [];
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if(!user) {
+        alert("Ghalat email ya password!");
+        return;
+      }
+
+      localStorage.setItem('rogueCurrentUser', JSON.stringify({ name: user.name, email: user.email }));
+      alert(`Khushamdeed, ${user.name}! 🚀`);
+      closeModal('loginModal');
+      updateNavAuth();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('rogueCurrentUser');
+      document.getElementById('admin-panel').style.display = 'none';
+      alert("Successfully logout ho gaye.");
+      updateNavAuth();
+    }
+
+    function updateNavAuth() {
+      const navActions = document.getElementById('authNavActions');
+      const currentUser = JSON.parse(localStorage.getItem('rogueCurrentUser'));
+
+      if(currentUser) {
+        navActions.innerHTML = `
+          <span style="font-size: 13px; font-weight: 600; color: var(--accent-green); margin-right: 5px;">👤 ${currentUser.name}</span>
+          <button class="btn-outline" onclick="handleLogout()">Logout</button>
+        `;
+      } else {
+        navActions.innerHTML = `
+          <button class="btn-outline" onclick="openModal('loginModal')">Login</button>
+          <button class="btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="openModal('signupModal')">Sign Up</button>
+        `;
+      }
     }
 
     function toggleAdminPanel() {
+      const currentUser = JSON.parse(localStorage.getItem('rogueCurrentUser'));
+      
+      if(!currentUser || !adminEmails.includes(currentUser.email)) {
+        alert("Access Denied! Admin dashboard sirf authorized accounts (mahmoodoffice9@gmail.com / roguemarkets1@gmail.com) ke liye restricted hai. 🔒");
+        return;
+      }
+
       const admin = document.getElementById('admin-panel');
       admin.style.display = admin.style.display === 'block' ? 'none' : 'block';
       window.scrollTo({ top: admin.offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function toggleChat() {
+      const popup = document.getElementById('chatPopup');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
 
     function sendClientMsg() {
@@ -454,11 +604,9 @@
       if(input.value.trim() === '') return;
 
       box.innerHTML += `<div class="msg client" style="background: #1a2621; color: var(--text-main); align-self: flex-end; border: none;">${input.value}</div>`;
-      const val = input.value;
       input.value = '';
       box.scrollTop = box.scrollHeight;
 
-      // Simulated auto-response or live trigger placeholder
       setTimeout(() => {
         box.innerHTML += `<div class="msg client" style="background: rgba(0,230,118,0.1); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.3);">Thanks for your message! Our fund manager will reply shortly. ⚡</div>`;
         box.scrollTop = box.scrollHeight;
