@@ -43,7 +43,7 @@
       -webkit-text-fill-color: transparent;
     }
     .nav-links { display: flex; align-items: center; gap: 25px; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.25s ease; font-size: 14px; font-weight: 600; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.25s ease; font-size: 14px; font-weight: 600; cursor: pointer; }
     .nav-links a:hover { color: var(--accent-green); }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
 
@@ -57,6 +57,7 @@
       font-weight: 600;
       text-decoration: none;
       transition: 0.2s;
+      cursor: pointer;
     }
     .btn-outline:hover { border-color: var(--accent-green); color: var(--accent-green); }
 
@@ -97,6 +98,8 @@
       border-radius: 8px; 
       transition: all 0.3s ease; 
       box-shadow: 0 4px 20px rgba(0, 230, 118, 0.2);
+      border: none;
+      cursor: pointer;
     }
     .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0, 230, 118, 0.4); }
 
@@ -121,131 +124,85 @@
     .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 16px; max-width: 650px; margin-left: auto; margin-right: auto; }
 
     /* Competencies Grid */
-    .competencies-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
-    }
-    .competency-card {
-      background: var(--bg-card);
-      padding: 40px 30px;
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      transition: 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .competency-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-5px);
-      background: var(--bg-card-hover);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-    }
+    .competencies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+    .competency-card { background: var(--bg-card); padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border-color); transition: 0.3s ease; }
+    .competency-card:hover { border-color: var(--border-glow); transform: translateY(-5px); background: var(--bg-card-hover); }
     .comp-icon { font-size: 36px; margin-bottom: 20px; display: inline-block; }
-    .competency-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 15px; color: var(--text-main); }
+    .competency-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 15px; }
     .competency-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 25px; }
     .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag { background: rgba(0, 230, 118, 0.03); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--accent-green); }
 
     /* Pricing Section */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
-    }
-    .price-card {
-      background: var(--bg-card);
-      padding: 45px 35px;
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: 0.3s;
-    }
-    .price-card.popular {
-      border-color: var(--accent-green);
-      background: linear-gradient(145deg, var(--bg-card), #121f19);
-      box-shadow: 0 0 40px rgba(0, 230, 118, 0.1);
-    }
-    .popular-badge {
-      position: absolute;
-      top: -12px;
-      right: 30px;
-      background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
-      color: #050706;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .price-header span { font-size: 12px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+    .price-card { background: var(--bg-card); padding: 45px 35px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .price-card.popular { border-color: var(--accent-green); background: linear-gradient(145deg, var(--bg-card), #121f19); }
+    .popular-badge { position: absolute; top: -12px; right: 30px; background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark)); color: #050706; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
+    .price-header span { font-size: 12px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; display: block; margin-bottom: 10px; }
     .price-header h3 { font-size: 22px; font-weight: 800; margin-bottom: 15px; }
     .price-tag { font-size: 36px; font-weight: 900; color: var(--accent-green); margin-bottom: 15px; }
-    .price-header p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; }
-    
+    .price-header p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
     .price-features { list-style: none; margin-bottom: 30px; border-top: 1px solid var(--border-color); padding-top: 20px; }
-    .price-features li { font-size: 13px; color: var(--text-main); margin-bottom: 12px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+    .price-features li { font-size: 13px; color: var(--text-main); margin-bottom: 12px; display: flex; gap: 10px; }
 
     /* Enterprise Custom Box */
-    .enterprise-box {
-      margin-top: 40px;
-      background: linear-gradient(145deg, var(--bg-card), #121f19);
-      border: 1px solid rgba(0, 230, 118, 0.3);
-      border-radius: 20px;
-      padding: 45px;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
-      align-items: center;
-    }
+    .enterprise-box { margin-top: 40px; background: linear-gradient(145deg, var(--bg-card), #121f19); border: 1px solid rgba(0, 230, 118, 0.3); border-radius: 20px; padding: 45px; display: grid; grid-template-columns: 2fr 1fr; gap: 30px; align-items: center; }
     .enterprise-box h3 { font-size: 26px; font-weight: 900; margin-bottom: 15px; }
-    .enterprise-box p { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; line-height: 1.7; }
-    .ent-features { display: flex; gap: 20px; flex-wrap: wrap; list-style: none; font-size: 13px; font-weight: 600; color: var(--text-main); }
+    .enterprise-box p { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
+    .ent-features { display: flex; gap: 20px; flex-wrap: wrap; list-style: none; font-size: 13px; font-weight: 600; }
 
     /* Case Studies Grid */
-    .cases-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
-    }
-    .case-card {
-      background: var(--bg-card);
-      padding: 35px;
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      transition: 0.3s;
-    }
-    .case-card:hover { border-color: var(--border-glow); transform: translateY(-4px); }
+    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+    .case-card { background: var(--bg-card); padding: 35px; border-radius: 20px; border: 1px solid var(--border-color); }
     .case-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .case-tag { font-size: 12px; font-weight: 700; color: var(--accent-green); background: rgba(0, 230, 118, 0.08); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(0, 230, 118, 0.2); }
     .rating { color: #f59e0b; font-size: 14px; font-weight: 700; }
     .case-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-    .case-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.6; }
+    .case-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
     .case-result { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); font-size: 14px; font-weight: 700; color: var(--accent-green); }
     .client-sig { margin-top: 15px; font-size: 12px; color: var(--text-muted); font-style: italic; }
 
-    /* Who We Are & Tech Stack */
-    .about-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      padding: 55px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
+    /* About Section & Stack */
+    .about-wrapper { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 55px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
     .about-text h2 { font-size: 32px; font-weight: 900; margin-bottom: 20px; }
     .about-text p { color: var(--text-muted); font-size: 15px; line-height: 1.8; margin-bottom: 20px; }
     .about-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 14px; font-weight: 600; }
-    
     .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .stack-item { background: rgba(0, 230, 118, 0.02); border: 1px solid var(--border-color); padding: 20px; border-radius: 14px; text-align: center; font-weight: 700; font-size: 14px; transition: 0.2s; }
-    .stack-item:hover { border-color: var(--accent-green); background: rgba(0, 230, 118, 0.05); }
+    .stack-item { background: rgba(0, 230, 118, 0.02); border: 1px solid var(--border-color); padding: 20px; border-radius: 14px; text-align: center; font-weight: 700; font-size: 14px; }
+
+    /* Admin Panel Hidden Section */
+    #admin-panel { display: none; background: var(--bg-card); border: 1px solid var(--accent-green); border-radius: 20px; padding: 30px; margin-top: 40px; }
+    .admin-grid { display: grid; grid-template-columns: 280px 1fr; gap: 20px; margin-top: 20px; }
+    .chat-users-list { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; height: 350px; overflow-y: auto; }
+    .chat-room { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 12px; display: flex; flex-direction: column; height: 350px; padding: 12px; }
+    .messages-box { flex: 1; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .msg { padding: 8px 12px; border-radius: 8px; font-size: 13px; max-width: 75%; }
+    .msg.client { background: #1a2621; align-self: flex-start; }
+    .msg.admin { background: rgba(0, 230, 118, 0.15); border: 1px solid var(--accent-green); align-self: flex-end; color: var(--accent-green); }
+    .chat-input-area { display: flex; gap: 8px; }
+    .chat-input-area input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 6px; color: var(--text-main); font-size: 13px; }
+
+    /* Floating Live Chat Widget Button & Popup */
+    .chat-widget-btn {
+      position: fixed; bottom: 30px; right: 30px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
+      color: #050706; width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+      cursor: pointer; box-shadow: 0 5px 25px rgba(0, 230, 118, 0.4); z-index: 9999; transition: 0.3s;
+    }
+    .chat-widget-btn:hover { transform: scale(1.1); }
+
+    .chat-popup {
+      position: fixed; bottom: 100px; right: 30px; width: 350px;
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 16px; display: none; flex-direction: column; height: 420px;
+      z-index: 9999; box-shadow: 0 10px 40px rgba(0,0,0,0.8); overflow: hidden;
+    }
+    .chat-popup-header { background: #131b17; padding: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); font-weight: 800; font-size: 14px; }
+    .close-chat { cursor: pointer; color: var(--text-muted); font-size: 18px; }
+    .chat-popup-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .chat-popup-footer { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; background: var(--bg-deep); }
+    .chat-popup-footer input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; color: var(--text-main); font-size: 13px; }
 
     /* Footer */
     footer { text-align: center; padding: 40px; background: var(--bg-deep); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-color); font-size: 14px; }
@@ -268,10 +225,10 @@
       <a href="#pricing">Investment Tiers</a>
       <a href="#cases">Fund Performance</a>
       <a href="#about">About Firm</a>
+      <a onclick="toggleAdminPanel()" style="color: var(--accent-green);">🔒 Admin Live Dashboard</a>
     </div>
     <div class="nav-actions">
       <a href="https://wa.me/923012928787" target="_blank" class="btn-outline">💬 WhatsApp</a>
-      <a href="#contact" class="btn-outline" style="color: var(--accent-green); border-color: rgba(0,230,118,0.3);">Secure Portal</a>
     </div>
   </header>
 
@@ -282,28 +239,16 @@
     <p>We manage institutional liquidity, execute precision multi-asset trading algorithms, and mentor elite market participants across global exchanges. 🚀</p>
     
     <div class="hero-buttons">
-      <a href="https://wa.me/923012928787" target="_blank" class="btn-primary">Initialize WhatsApp Chat 💬</a>
+      <button class="btn-primary" onclick="toggleChat()">Start Live Chat Now 💬</button>
       <a href="#pricing" class="btn-outline" style="padding: 14px 30px; font-weight: 700;">View Investment Tiers 💎</a>
     </div>
 
     <!-- Metrics Bar -->
     <div class="metrics-bar">
-      <div class="metric-item">
-        <h3>94.2%</h3>
-        <p>Execution Accuracy</p>
-      </div>
-      <div class="metric-item">
-        <h3>$12M+</h3>
-        <p>Managed Capital</p>
-      </div>
-      <div class="metric-item">
-        <h3>1:5+</h3>
-        <p>Risk-to-Reward Ratio</p>
-      </div>
-      <div class="metric-item">
-        <h3>24/7</h3>
-        <p>Live Risk Oversight</p>
-      </div>
+      <div class="metric-item"><h3>94.2%</h3><p>Execution Accuracy</p></div>
+      <div class="metric-item"><h3>$12M+</h3><p>Managed Capital</p></div>
+      <div class="metric-item"><h3>1:5+</h3><p>Risk-to-Reward Ratio</p></div>
+      <div class="metric-item"><h3>24/7</h3><p>Live Risk Oversight</p></div>
     </div>
   </section>
 
@@ -317,33 +262,19 @@
         <div class="comp-icon">💰</div>
         <h3>Institutional Fund Management</h3>
         <p>Capital allocation across international exchanges with dynamic drawdown protection and automated risk parameters.</p>
-        <div class="tech-tags">
-          <span class="tag">Forex Liquidity</span>
-          <span class="tag">Crypto Assets</span>
-          <span class="tag">Equities</span>
-        </div>
+        <div class="tech-tags"><span class="tag">Forex Liquidity</span><span class="tag">Crypto Assets</span><span class="tag">Equities</span></div>
       </div>
-
       <div class="competency-card">
         <div class="comp-icon">🎓</div>
         <h3>Elite Trading Education</h3>
         <p>Rigorous, data-backed training models taking traders from foundational mechanics to proprietary execution frameworks.</p>
-        <div class="tech-tags">
-          <span class="tag">Price Action</span>
-          <span class="tag">Order Flow</span>
-          <span class="tag">Risk Psychology</span>
-        </div>
+        <div class="tech-tags"><span class="tag">Price Action</span><span class="tag">Order Flow</span><span class="tag">Risk Psychology</span></div>
       </div>
-
       <div class="competency-card">
         <div class="comp-icon">🛡️</div>
         <h3>Private Account Consulting</h3>
         <p>Custom account handling and infrastructure consulting tailored for high-net-worth investors and private syndicates.</p>
-        <div class="tech-tags">
-          <span class="tag">Risk Structuring</span>
-          <span class="tag">Macro Analysis</span>
-          <span class="tag">Speed Tuning</span>
-        </div>
+        <div class="tech-tags"><span class="tag">Risk Structuring</span><span class="tag">Macro Analysis</span><span class="tag">Speed Tuning</span></div>
       </div>
     </div>
   </div>
@@ -354,7 +285,6 @@
     <p class="section-desc">Choose a structured fund management program or elite mentorship tier tailored to your financial goals.</p>
 
     <div class="pricing-grid">
-      <!-- Tier 1 -->
       <div class="price-card">
         <div class="price-header">
           <span>✍️ Mentorship Program</span>
@@ -368,11 +298,10 @@
             <li>✅ Live Market Dissection & Weekly Setup Breakdowns.</li>
             <li>✅ Strict Risk-Management Rulebook & Journaling Framework.</li>
           </ul>
-          <a href="https://wa.me/923012928787" target="_blank" class="btn-primary" style="display: block; text-align: center;">Enroll in Mentorship ⚡</a>
+          <button class="btn-primary" style="width: 100%; text-align: center;" onclick="toggleChat()">Enroll via Live Chat ⚡</button>
         </div>
       </div>
 
-      <!-- Tier 2 (Popular) -->
       <div class="price-card popular">
         <div class="popular-badge">Most Popular 🔥</div>
         <div class="price-header">
@@ -387,11 +316,10 @@
             <li>✅ Real-Time Performance Telemetry & Transparent Auditing.</li>
             <li>✅ Strict 2% Max Drawdown Protection per Session.</li>
           </ul>
-          <a href="https://wa.me/923012928787" target="_blank" class="btn-primary" style="display: block; text-align: center;">Partner With Us 🚀</a>
+          <button class="btn-primary" style="width: 100%; text-align: center;" onclick="toggleChat()">Partner With Us 🚀</button>
         </div>
       </div>
 
-      <!-- Tier 3 -->
       <div class="price-card">
         <div class="price-header">
           <span>💰 VIP Advisory</span>
@@ -405,25 +333,8 @@
             <li>✅ Customized Portfolio Diversification & Hedging Blueprint.</li>
             <li>✅ Direct Priority Communication Node via Secure Channels.</li>
           </ul>
-          <a href="https://wa.me/923012928787" target="_blank" class="btn-primary" style="display: block; text-align: center;">Book Consultation ⚡</a>
+          <button class="btn-primary" style="width: 100%; text-align: center;" onclick="toggleChat()">Book Consultation ⚡</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Enterprise Custom Box -->
-    <div class="enterprise-box">
-      <div>
-        <h3>🌟 Institutional Partnership & Syndicate Accounts</h3>
-        <p>Managing large-scale capital or looking for customized execution speed and bespoke risk parameters? We partner with private syndicates and institutional investors to deliver uncompromised performance.</p>
-        <ul class="ent-features">
-          <li>🛡️ Custom drawdown boundaries</li>
-          <li>🚀 Dedicated fund manager oversight</li>
-          <li>🔒 Bank-grade transparent accounting</li>
-        </ul>
-      </div>
-      <div style="text-align: right;">
-        <div style="font-size: 18px; font-weight: 800; color: var(--accent-green); margin-bottom: 15px;">Custom Allocation Scope</div>
-        <a href="https://wa.me/923012928787" target="_blank" class="btn-primary">Contact via WhatsApp 💬</a>
       </div>
     </div>
   </div>
@@ -434,43 +345,49 @@
     <p class="section-desc">Verified metrics from private investors and students who scaled their portfolios with Rogue Markets.</p>
 
     <div class="cases-grid">
-      <!-- Case 1 -->
       <div class="case-card">
-        <div class="case-top">
-          <span class="case-tag">Fund Management</span>
-          <span class="rating">⭐ 5.0</span>
-        </div>
+        <div class="case-top"><span class="case-tag">Fund Management</span><span class="rating">⭐ 5.0</span></div>
         <h3>Private Capital Growth Portfolio</h3>
         <p class="case-meta"><strong>Challenge:</strong> Consistent drawdowns from emotional retail trading habits.</p>
-        <p class="case-meta"><strong>Solution:</strong> Transferred allocation to Rogue Markets managed fund protocol.</p>
         <div class="case-result">Result: Steady 28% quarterly net growth achieved.</div>
         <div class="client-sig">Sohaib Ahmed — Private Investor, Lahore</div>
       </div>
-
-      <!-- Case 2 -->
       <div class="case-card">
-        <div class="case-top">
-          <span class="case-tag">Trading Mentorship</span>
-          <span class="rating">⭐ 4.9</span>
-        </div>
+        <div class="case-top"><span class="case-tag">Trading Mentorship</span><span class="rating">⭐ 4.9</span></div>
         <h3>From Retail Loss to Funded Pro</h3>
         <p class="case-meta"><strong>Challenge:</strong> Lack of structured risk framework and poor entry precision.</p>
-        <p class="case-meta"><strong>Solution:</strong> Completed advanced price action and order flow masterclass.</p>
         <div class="case-result">Result: Passed 50K prop firm evaluation in 3 weeks.</div>
         <div class="client-sig">Hamza Tariq — Full-Time Trader</div>
       </div>
-
-      <!-- Case 3 -->
       <div class="case-card">
-        <div class="case-top">
-          <span class="case-tag">Account Consulting</span>
-          <span class="rating">⭐ 4.8</span>
-        </div>
+        <div class="case-top"><span class="case-tag">Account Consulting</span><span class="rating">⭐ 4.8</span></div>
         <h3>Syndicate Risk Restructuring</h3>
         <p class="case-meta"><strong>Challenge:</strong> High exposure volatility during major macroeconomic news releases.</p>
-        <p class="case-meta"><strong>Solution:</strong> Implemented institutional hedging models and dynamic lot sizing.</p>
         <div class="case-result">Result: Zero major drawdowns during Fed rate announcements.</div>
         <div class="client-sig">Usman Ghani — Syndicate Lead, Karachi</div>
+      </div>
+    </div>
+
+    <!-- Admin Panel Section (Toggled via Header) -->
+    <div id="admin-panel">
+      <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Chat Node</h3>
+      <p style="color: var(--text-muted); font-size: 13px;">Manage client messages directly from your live website database node.</p>
+      
+      <div class="admin-grid">
+        <div class="chat-users-list">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase;">Active Clients</div>
+          <div style="padding: 10px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--accent-green); font-size: 12px; font-weight: 600;">Sohaib Ahmed (Fund Inquiry)</div>
+        </div>
+        <div class="chat-room">
+          <div class="messages-box" id="adminMessagesBox">
+            <div class="msg client">Hello, I want to invest $1,000 into the managed fund portfolio tier.</div>
+            <div class="msg admin">Welcome Sohaib! Let's get your details verified. 🚀</div>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="adminInput" placeholder="Type admin reply...">
+            <button class="btn-primary" style="padding: 8px 15px; font-size: 12px;" onclick="sendAdminMsg()">Send</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -480,14 +397,12 @@
     <div class="about-wrapper">
       <div class="about-text">
         <h2 style="background: linear-gradient(135deg, #ffffff, var(--accent-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Engineered for Maximum Alpha & Security</h2>
-        <p>Rogue Markets was built to bridge the gap between complex global market liquidity and disciplined risk execution. We don't rely on guesswork; our operations rely on mathematical precision, strict risk-to-reward metrics, and professional execution.</p>
+        <p>Rogue Markets bridges the gap between complex global market liquidity and disciplined risk execution. We rely on mathematical precision and professional execution.</p>
         <ul class="about-checklist">
           <li>✅ Transparent, real-time auditing and trade telemetry</li>
           <li>✅ Strict mathematical drawdown limitations on all accounts</li>
-          <li>✅ Direct communication channels with experienced fund managers</li>
         </ul>
       </div>
-
       <div class="stack-grid">
         <div class="stack-item">📈 Forex & Indices</div>
         <div class="stack-item">🪙 Crypto Liquidity</div>
@@ -497,10 +412,68 @@
     </div>
   </div>
 
+  <!-- Floating Live Chat Widget Button -->
+  <div class="chat-widget-btn" onclick="toggleChat()">💬</div>
+
+  <!-- Floating Live Chat Popup Window -->
+  <div class="chat-popup" id="chatPopup">
+    <div class="chat-popup-header">
+      <span>⚡ Rogue Support Live</span>
+      <span class="close-chat" onclick="toggleChat()">&times;</span>
+    </div>
+    <div class="chat-popup-body" id="clientMessagesBox">
+      <div class="msg client" style="background: rgba(0,230,118,0.1); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.3);">Welcome to Rogue Markets! How can we assist with your trading goals today? 📈</div>
+    </div>
+    <div class="chat-popup-footer">
+      <input type="text" id="clientInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendClientMsg()">
+      <button class="btn-primary" style="padding: 8px 12px; font-size: 12px;" onclick="sendClientMsg()">Send</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
 
+  <!-- Script for Custom Realtime Chat & Toggles -->
+  <script>
+    function toggleChat() {
+      const popup = document.getElementById('chatPopup');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleAdminPanel() {
+      const admin = document.getElementById('admin-panel');
+      admin.style.display = admin.style.display === 'block' ? 'none' : 'block';
+      window.scrollTo({ top: admin.offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function sendClientMsg() {
+      const input = document.getElementById('clientInput');
+      const box = document.getElementById('clientMessagesBox');
+      if(input.value.trim() === '') return;
+
+      box.innerHTML += `<div class="msg client" style="background: #1a2621; color: var(--text-main); align-self: flex-end; border: none;">${input.value}</div>`;
+      const val = input.value;
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+
+      // Simulated auto-response or live trigger placeholder
+      setTimeout(() => {
+        box.innerHTML += `<div class="msg client" style="background: rgba(0,230,118,0.1); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.3);">Thanks for your message! Our fund manager will reply shortly. ⚡</div>`;
+        box.scrollTop = box.scrollHeight;
+      }, 1000);
+    }
+
+    function sendAdminMsg() {
+      const input = document.getElementById('adminInput');
+      const box = document.getElementById('adminMessagesBox');
+      if(input.value.trim() === '') return;
+
+      box.innerHTML += `<div class="msg admin">${input.value}</div>`;
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+    }
+  </script>
 </body>
 </html>
