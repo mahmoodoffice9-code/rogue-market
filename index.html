@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rogue Markets - Professional Trading & Fund Management</title>
+  
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root {
       --bg-deep: #050706;
@@ -176,7 +180,7 @@
     .chat-input-area { display: flex; gap: 8px; }
     .chat-input-area input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px; border-radius: 6px; color: var(--text-main); font-size: 13px; }
 
-    /* Modals for Auth (Sign Up & Login) */
+    /* Modals for Auth */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(5, 7, 6, 0.85); backdrop-filter: blur(8px);
@@ -240,7 +244,7 @@
       <a href="#pricing">Investment Tiers</a>
       <a href="#cases">Fund Performance</a>
       <a href="#about">About Firm</a>
-      <a onclick="toggleAdminPanel()" style="color: var(--accent-green);">🔒 Admin Dashboard</a>
+      <!-- Admin link will be dynamically injected here ONLY for specific admin emails -->
     </div>
     <div class="nav-actions" id="authNavActions">
       <!-- Dynamic Auth Buttons -->
@@ -385,10 +389,10 @@
       </div>
     </div>
 
-    <!-- Admin Panel Section (Strictly for specified emails) -->
+    <!-- Admin Panel Section (Hidden by default, shown ONLY for admins) -->
     <div id="admin-panel">
       <h3 style="color: var(--accent-green); margin-bottom: 5px;">⚡ Rogue Markets Admin Live Dashboard</h3>
-      <p style="color: var(--text-muted); font-size: 13px;">Restricted Admin Console for authorized leads only.</p>
+      <p style="color: var(--text-muted); font-size: 13px;">Restricted Console for authorized management only.</p>
       
       <div class="admin-grid">
         <div class="chat-users-list">
@@ -490,8 +494,13 @@
     <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
 
-  <!-- Script for Authentication & Access Control -->
+  <!-- Script for Supabase & Secure Access Control -->
   <script>
+    // 1. Supabase Initialization with Connected Project Credentials
+    const SUPABASE_URL = 'https://meirbgubkltpjdbyomlh.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1laXJiZ3Via2x0cGpkYnpvbWxoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyODE2NjYsImV4cCI6MjEwMzg1NzY2Nn0.vFuhqJWToKHUu3LM_d8q_nBK4zmiijf-9D0JiQDXOrY';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const adminEmails = ["mahmoodoffice9@gmail.com", "roguemarkets1@gmail.com"];
 
     function openModal(modalId) {
@@ -502,12 +511,13 @@
       document.getElementById(modalId).style.display = 'none';
     }
 
-    // Check logged-in state on page load
-    window.onload = function() {
-      updateNavAuth();
+    // Check session on page load
+    window.onload = async function() {
+      await updateNavAuth();
     };
 
-    function handleSignup() {
+    // 2. Sign Up Handler (Name, Email, Password)
+    async function handleSignup() {
       const name = document.getElementById('signupName').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
       const password = document.getElementById('signupPassword').value.trim();
@@ -517,23 +527,26 @@
         return;
       }
 
-      let users = JSON.parse(localStorage.getItem('rogueUsers')) || [];
-      const exists = users.find(u => u.email === email);
-      if(exists) {
-        alert("Yeh email pehle se registered hai! Login karein.");
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: { full_name: name }
+        }
+      });
+
+      if (error) {
+        alert("Error: " + error.message);
         return;
       }
 
-      users.push({ name, email, password });
-      localStorage.setItem('rogueUsers', JSON.stringify(users));
-      localStorage.setItem('rogueCurrentUser', JSON.stringify({ name, email }));
-      
       alert("Account successfully create ho gaya! 🎉");
       closeModal('signupModal');
-      updateNavAuth();
+      await updateNavAuth();
     }
 
-    function handleLogin() {
+    // 3. Login Handler (Email, Password)
+    async function handleLogin() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
 
@@ -542,37 +555,63 @@
         return;
       }
 
-      let users = JSON.parse(localStorage.getItem('rogueUsers')) || [];
-      const user = users.find(u => u.email === email && u.password === password);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
-      if(!user) {
-        alert("Ghalat email ya password!");
+      if (error) {
+        alert("Ghalat email ya password! " + error.message);
         return;
       }
 
-      localStorage.setItem('rogueCurrentUser', JSON.stringify({ name: user.name, email: user.email }));
-      alert(`Khushamdeed, ${user.name}! 🚀`);
+      alert(`Khushamdeed! 🚀`);
       closeModal('loginModal');
-      updateNavAuth();
+      await updateNavAuth();
     }
 
-    function handleLogout() {
-      localStorage.removeItem('rogueCurrentUser');
+    // 4. Logout Handler
+    async function handleLogout() {
+      await supabase.auth.signOut();
       document.getElementById('admin-panel').style.display = 'none';
       alert("Successfully logout ho gaye.");
-      updateNavAuth();
+      await updateNavAuth();
     }
 
-    function updateNavAuth() {
+    // 5. Update Navbar & Admin Visibility based on Session
+    async function updateNavAuth() {
+      const navLinks = document.querySelector('.nav-links');
       const navActions = document.getElementById('authNavActions');
-      const currentUser = JSON.parse(localStorage.getItem('rogueCurrentUser'));
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      // Purana admin link remove karein taaki duplicate na bane
+      const existingAdminLink = document.getElementById('adminNavLink');
+      if (existingAdminLink) existingAdminLink.remove();
 
-      if(currentUser) {
+      if (session && session.user) {
+        const userEmail = session.user.email;
+        const userName = session.user.user_metadata?.full_name || userEmail.split('@')[0];
+
+        // Agar user admin hai, tabhi navbar mein Admin link show hoga
+        if (adminEmails.includes(userEmail)) {
+          const adminLink = document.createElement('a');
+          adminLink.id = 'adminNavLink';
+          adminLink.style.color = 'var(--accent-green)';
+          adminLink.style.fontWeight = '700';
+          adminLink.innerHTML = '🔒 Admin Dashboard';
+          adminLink.onclick = toggleAdminPanel;
+          navLinks.appendChild(adminLink);
+        }
+
         navActions.innerHTML = `
-          <span style="font-size: 13px; font-weight: 600; color: var(--accent-green); margin-right: 5px;">👤 ${currentUser.name}</span>
+          <span style="font-size: 13px; font-weight: 600; color: var(--accent-green); margin-right: 5px;">👤 ${userName}</span>
           <button class="btn-outline" onclick="handleLogout()">Logout</button>
         `;
       } else {
+        // Agar koi login nahi hai, toh admin panel hide kar do
+        document.getElementById('admin-panel').style.display = 'none';
+        
         navActions.innerHTML = `
           <button class="btn-outline" onclick="openModal('loginModal')">Login</button>
           <button class="btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="openModal('signupModal')">Sign Up</button>
@@ -580,11 +619,12 @@
       }
     }
 
-    function toggleAdminPanel() {
-      const currentUser = JSON.parse(localStorage.getItem('rogueCurrentUser'));
+    // 6. Toggle Admin Panel Secure Check
+    async function toggleAdminPanel() {
+      const { data: { session } } = await supabase.auth.getSession();
       
-      if(!currentUser || !adminEmails.includes(currentUser.email)) {
-        alert("Access Denied! Admin dashboard sirf authorized accounts (mahmoodoffice9@gmail.com / roguemarkets1@gmail.com) ke liye restricted hai. 🔒");
+      if(!session || !adminEmails.includes(session.user.email)) {
+        alert("Access Denied! Yeh panel sirf authorized admins ke liye hai. 🔒");
         return;
       }
 
