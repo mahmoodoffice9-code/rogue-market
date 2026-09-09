@@ -3,34 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Market Predators - Forex Trading Syndicate</title>
+  <title>Rogue Markets - Professional Trading & Fund Management</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- AOS (Animate On Scroll) Library CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
     :root {
-      --bg-deep: #050508;
-      --bg-card: #0d0f14;
-      --bg-card-hover: #141720;
-      --accent-red: #ff1e38;
-      --accent-red-dark: #b30018;
-      --accent-gold: #f59e0b;
-      --accent-red-glow: rgba(255, 30, 56, 0.3);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #1f2430;
-      --border-glow: rgba(255, 30, 56, 0.4);
+      /* Pure Black */
+      --bg-deep: #060505;
+      --bg-card: #120d0d;
+      --bg-card-hover: #1c1313;
+      /* Electric Red (primary accent) */
+      --accent-cyan: #ff1436;
+      --accent-cyan-dark: #8a0016;
+      --accent-cyan-glow: rgba(255, 20, 54, 0.5);
+      --gold-soft: #ff4d5e;
+      /* Deep Blood Red (secondary accent) */
+      --blood-red: #2b0000;
+      --blood-red-bright: #ff002b;
+      --blood-red-glow: rgba(255, 0, 43, 0.55);
+      /* Text */
+      --text-main: #f5efe6;
+      --text-muted: #a89890;
+      --border-color: #271515;
+      --border-glow: rgba(255, 20, 54, 0.65);
+      --heading-font: 'Cormorant Garamond', 'Plus Jakarta Sans', serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-    body { background-color: var(--bg-deep); color: var(--text-main); line-height: 1.6; }
+    body {
+      background-color: var(--bg-deep);
+      background-image:
+        repeating-linear-gradient(115deg, rgba(255,20,54,0.025) 0px, rgba(255,20,54,0.025) 1px, transparent 1px, transparent 60px),
+        radial-gradient(circle at 12% -5%, rgba(255, 20, 54, 0.22) 0%, transparent 38%),
+        radial-gradient(circle at 88% 105%, rgba(255, 0, 43, 0.20) 0%, transparent 42%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--accent-cyan); color: #060505; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent-cyan), var(--blood-red-bright)); border-radius: 4px; }
     
     header { 
-      background: rgba(5, 5, 8, 0.88); 
+      background: rgba(14, 12, 10, 0.88); 
       backdrop-filter: blur(20px); 
       padding: 16px 40px; 
       display: flex; 
@@ -40,6 +64,16 @@
       position: sticky; 
       top: 0; 
       z-index: 1000; 
+      box-shadow: 0 1px 0 rgba(255, 20, 54, 0.21);
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blood-red), var(--accent-cyan), var(--blood-red), transparent);
+      opacity: 0.6;
+      pointer-events: none;
     }
     .logo { 
       display: flex;
@@ -47,23 +81,24 @@
       gap: 12px;
     }
     .logo img {
-      height: 44px;
+      height: 40px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 0 12px rgba(255,30,56,0.4));
+      filter: drop-shadow(0 0 10px rgba(255, 20, 54, 0.56));
     }
     .logo-text {
-      font-size: 20px; 
-      font-weight: 800; 
-      letter-spacing: 2px; 
-      background: linear-gradient(135deg, #ffffff, var(--accent-red), var(--accent-gold));
+      font-size: 23px; 
+      font-weight: 700; 
+      letter-spacing: 2.5px; 
+      background: linear-gradient(135deg, var(--gold-soft), var(--accent-cyan) 55%, var(--accent-cyan-dark));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--heading-font);
+      font-style: italic;
     }
     .nav-links { display: flex; align-items: center; gap: 30px; }
     .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.25s ease; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; }
-    .nav-links a:hover { color: var(--accent-red); text-shadow: 0 0 10px var(--accent-red-glow); }
+    .nav-links a:hover { color: var(--blood-red-bright); text-shadow: 0 0 10px var(--blood-red-glow); }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
 
     .btn-outline {
@@ -71,7 +106,7 @@
       border: 1px solid var(--border-color);
       color: var(--text-main);
       padding: 9px 18px;
-      border-radius: 6px;
+      border-radius: 4px;
       font-size: 12px;
       font-weight: 600;
       text-decoration: none;
@@ -79,53 +114,75 @@
       cursor: pointer;
       font-family: 'JetBrains Mono', monospace;
     }
-    .btn-outline:hover { border-color: var(--accent-red); color: var(--accent-red); box-shadow: 0 0 15px rgba(255,30,56,0.15); }
+    .btn-outline:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(255, 20, 54, 0.21); background: rgba(255, 20, 54, 0.07); }
 
     .hero { 
       text-align: center; 
-      padding: 120px 20px 80px; 
-      background: radial-gradient(circle at 50% 15%, rgba(255, 30, 56, 0.12) 0%, rgba(13, 15, 20, 0.7) 50%, transparent 80%);
+      padding: 130px 20px 80px; 
+      background: radial-gradient(circle at 50% 0%, rgba(255, 20, 54, 0.196) 0%, rgba(139, 0, 0, 0.08) 35%, transparent 75%);
+      position: relative;
     }
     .hero-badge {
       display: inline-block;
-      background: rgba(255, 30, 56, 0.08);
-      color: var(--accent-red);
-      padding: 6px 16px;
+      background: linear-gradient(90deg, rgba(139,0,0,0.12), rgba(255, 20, 54, 0.14));
+      color: var(--gold-soft);
+      padding: 7px 18px;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2px;
-      border-radius: 4px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(255, 30, 56, 0.3);
+      border-radius: 3px;
+      margin-bottom: 28px;
+      border: 1px solid rgba(255, 20, 54, 0.49);
       text-transform: uppercase;
       font-family: 'JetBrains Mono', monospace;
     }
-    .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 24px; letter-spacing: -1px; line-height: 1.15; }
+    .hero h1 { font-family: var(--heading-font); font-size: 62px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.5px; line-height: 1.15; }
     .hero h1 span { 
-      background: linear-gradient(135deg, #ffffff, var(--accent-red), var(--accent-gold));
+      background: linear-gradient(135deg, #ffffff 0%, var(--gold-soft) 40%, var(--accent-cyan) 70%, var(--accent-cyan-dark) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      font-style: italic;
     }
     .hero p { font-size: 17px; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; }
     
     .hero-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 70px; }
     .btn-primary { 
-      background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark)); 
-      color: #ffffff; 
-      padding: 13px 28px; 
+      background: linear-gradient(135deg, var(--gold-soft), var(--accent-cyan) 60%, var(--accent-cyan-dark)); 
+      color: #060505; 
+      padding: 14px 30px; 
       text-decoration: none; 
-      font-weight: 700; 
-      border-radius: 6px; 
-      transition: all 0.3s ease; 
-      box-shadow: 0 4px 20px rgba(255, 30, 56, 0.35);
+      font-weight: 800; 
+      border-radius: 3px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.25s ease; 
+      box-shadow: 0 4px 24px rgba(255, 20, 54, 0.5), 0 0 0 1px rgba(255,20,54,0.3) inset;
       border: none;
       cursor: pointer;
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255, 30, 56, 0.55); background: linear-gradient(135deg, #ff3b53, #990012); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255, 20, 54, 0.85); }
+
+    .btn-red {
+      background: linear-gradient(135deg, var(--blood-red-bright), #7a0018);
+      color: #f5efe6;
+      padding: 14px 30px;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 3px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 24px rgba(255, 0, 43, 0.5), 0 0 0 1px rgba(255,0,43,0.35) inset;
+      border: none;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .btn-red:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255, 0, 43, 0.85); }
 
     .metrics-bar {
       max-width: 1000px;
@@ -133,131 +190,158 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 16px;
-      background: var(--bg-card);
+      background: linear-gradient(180deg, var(--bg-card), var(--bg-deep));
       border: 1px solid var(--border-color);
-      border-radius: 12px;
+      border-image: linear-gradient(90deg, var(--blood-red), var(--accent-cyan), var(--blood-red)) 1;
+      border-radius: 4px;
       padding: 30px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.65);
     }
-    .metric-item h3 { font-size: 32px; font-weight: 800; color: var(--accent-red); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
+    .metric-item { position: relative; }
+    .metric-item:not(:last-child)::after { content: ''; position: absolute; right: -8px; top: 10%; height: 80%; width: 1px; background: var(--border-color); }
+    .metric-item h3 { font-family: 'JetBrains Mono', monospace; font-size: 34px; font-weight: 800; font-style: normal; background: linear-gradient(135deg, var(--gold-soft), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; letter-spacing: -0.5px; }
     .metric-item p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 
     .container { max-width: 1140px; margin: 0 auto; padding: 100px 20px 20px; }
-    .section-title { text-align: center; font-size: 36px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
-    .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 15px; max-width: 650px; margin-left: auto; margin-right: auto; }
+    .section-title { text-align: center; font-family: var(--heading-font); font-size: 42px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; color: var(--text-main); }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      margin: 16px auto 0;
+      background: linear-gradient(90deg, var(--blood-red), var(--accent-cyan));
+      border-radius: 3px;
+    }
+    .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 60px; font-size: 15px; max-width: 650px; margin-left: auto; margin-right: auto; margin-top: 20px; }
 
     .competencies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
-    .competency-card { background: var(--bg-card); padding: 40px 30px; border-radius: 14px; border: 1px solid var(--border-color); transition: 0.3s ease; position: relative; overflow: hidden; }
-    .competency-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-red), transparent); opacity: 0; transition: 0.3s; }
-    .competency-card:hover { border-color: var(--border-glow); transform: translateY(-4px); background: var(--bg-card-hover); }
+    .competency-card { background: var(--bg-card); padding: 40px 30px; border-radius: 4px; border: 1px solid var(--border-color); transition: 0.3s ease; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    .competency-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--blood-red), var(--accent-cyan), var(--blood-red)); opacity: 0; transition: 0.3s; }
+    .competency-card:hover { border-color: var(--border-glow); transform: translateY(-6px); background: var(--bg-card-hover); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
     .competency-card:hover::before { opacity: 1; }
-    .comp-icon { font-size: 34px; margin-bottom: 20px; display: inline-block; filter: drop-shadow(0 0 10px rgba(255,30,56,0.3)); }
-    .competency-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
+    .comp-icon { font-size: 34px; margin-bottom: 20px; display: inline-block; filter: drop-shadow(0 0 10px rgba(255, 20, 54, 0.42)); }
+    .competency-card h3 { font-family: var(--heading-font); font-size: 23px; font-weight: 700; margin-bottom: 14px; color: var(--gold-soft); }
     .competency-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 22px; }
     .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { background: rgba(255, 30, 56, 0.05); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; color: var(--accent-red); font-family: 'JetBrains Mono', monospace; }
+    .tag { background: rgba(255, 20, 54, 0.056); border: 1px solid var(--border-color); padding: 5px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; }
 
     .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-    .team-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; text-align: center; padding: 30px 20px; transition: 0.3s; }
-    .team-card:hover { border-color: var(--accent-red); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(255,30,56,0.15); }
-    .team-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 18px; border: 2px solid var(--accent-red); box-shadow: 0 0 15px rgba(255, 30, 56, 0.3); }
-    .team-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .team-title { font-size: 11px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+    .team-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; text-align: center; padding: 30px 20px; transition: 0.3s; }
+    .team-card:hover { border-color: var(--blood-red-bright); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(255, 0, 43, 0.15); }
+    .team-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 18px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 0 4px var(--bg-deep), 0 0 18px rgba(255, 20, 54, 0.49); }
+    .team-card h3 { font-family: var(--heading-font); font-size: 21px; font-weight: 700; margin-bottom: 6px; }
+    .team-title { font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
     .team-contact { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
 
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
-    .price-card { background: var(--bg-card); padding: 45px 30px; border-radius: 14px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: 0.3s; }
-    .price-card:hover { border-color: rgba(255,30,56,0.3); }
-    .price-card.popular { border-color: var(--accent-red); background: linear-gradient(145deg, var(--bg-card), #1a080c); box-shadow: 0 15px 40px rgba(255,30,56,0.12); }
-    .popular-badge { position: absolute; top: -12px; right: 25px; background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark)); color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 4px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
-    .price-header span { font-size: 11px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; display: block; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
-    .price-header h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-    .price-tag { font-size: 36px; font-weight: 800; color: var(--accent-red); margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+    .price-card { background: var(--bg-card); padding: 45px 30px; border-radius: 4px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: 0.3s; }
+    .price-card:hover { border-color: rgba(255, 20, 54, 0.49); transform: translateY(-3px); }
+    .price-card.popular { border-color: var(--blood-red-bright); background: linear-gradient(145deg, var(--bg-card), #150505); box-shadow: 0 15px 45px rgba(255, 0, 43, 0.28); transform: scale(1.02); animation: border-pulse 2.4s ease-in-out infinite; }
+    @keyframes border-pulse {
+      0%, 100% { box-shadow: 0 15px 45px rgba(255, 0, 43, 0.28); }
+      50% { box-shadow: 0 15px 55px rgba(255, 0, 43, 0.5); }
+    }
+    .popular-badge { position: absolute; top: -12px; right: 25px; background: linear-gradient(135deg, var(--blood-red-bright), var(--blood-red)); color: #f5efe6; font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 3px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; box-shadow: 0 4px 16px rgba(255, 0, 43, 0.55); }
+    .price-header span { font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; display: block; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+    .price-header h3 { font-family: var(--heading-font); font-size: 25px; font-weight: 700; margin-bottom: 12px; }
+    .price-tag { font-size: 38px; font-weight: 800; background: linear-gradient(135deg, var(--gold-soft), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
     .price-header p { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
     .price-features { list-style: none; margin-bottom: 30px; border-top: 1px solid var(--border-color); padding-top: 20px; }
     .price-features li { font-size: 12px; color: var(--text-main); margin-bottom: 12px; display: flex; gap: 10px; align-items: center; font-family: 'JetBrains Mono', monospace; }
 
     .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
-    .case-card { background: var(--bg-card); padding: 34px; border-radius: 14px; border: 1px solid var(--border-color); transition: 0.3s; }
-    .case-card:hover { border-color: rgba(255,30,56,0.3); transform: translateY(-3px); }
+    .case-card { background: var(--bg-card); padding: 34px; border-radius: 4px; border: 1px solid var(--border-color); transition: 0.3s; }
+    .case-card:hover { border-color: rgba(255, 20, 54, 0.42); transform: translateY(-3px); }
     .case-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .case-tag { font-size: 10px; font-weight: 700; color: var(--accent-red); background: rgba(255, 30, 56, 0.06); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255, 30, 56, 0.2); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
-    .rating { color: var(--accent-gold); font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-    .case-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .case-tag { font-size: 10px; font-weight: 700; color: var(--accent-cyan); background: rgba(255, 20, 54, 0.084); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255, 20, 54, 0.28); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+    .rating { color: var(--gold-soft); font-size: 13px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .case-card h3 { font-family: var(--heading-font); font-size: 21px; font-weight: 700; margin-bottom: 10px; }
     .case-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
-    .case-result { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 13px; font-weight: 700; color: var(--accent-red); font-family: 'JetBrains Mono', monospace; }
+    .case-result { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 13px; font-weight: 700; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; }
     .client-sig { margin-top: 12px; font-size: 11px; color: var(--text-muted); font-style: italic; font-family: 'JetBrains Mono', monospace; }
 
-    .about-wrapper { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-    .about-text h2 { font-size: 32px; font-weight: 800; margin-bottom: 18px; letter-spacing: -0.5px; }
+    .about-wrapper { background: linear-gradient(160deg, var(--bg-card), #14100d); border: 1px solid var(--border-color); border-radius: 8px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .about-text h2 { font-family: var(--heading-font); font-size: 38px; font-weight: 700; margin-bottom: 18px; letter-spacing: -0.5px; font-style: italic; }
     .about-text p { color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
     .about-checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
     .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .stack-item { background: rgba(255, 30, 56, 0.03); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stack-item { background: rgba(255, 20, 54, 0.028); border: 1px solid var(--border-color); padding: 20px; border-radius: 4px; text-align: center; font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* Admin Panel Dashboard Styling */
-    #admin-panel { display: none; background: var(--bg-card); border: 1px solid var(--accent-red); border-radius: 16px; padding: 30px; margin-top: 40px; box-shadow: 0 0 40px rgba(255,30,56,0.12); }
+    #admin-panel { display: none; background: var(--bg-card); border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 30px; margin-top: 40px; box-shadow: 0 0 40px rgba(255, 20, 54, 0.14); }
     .admin-grid { display: grid; grid-template-columns: 280px 1fr; gap: 20px; margin-top: 20px; }
-    .chat-users-list { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; height: 340px; overflow-y: auto; }
-    .chat-user-item { padding: 10px; border-radius: 6px; cursor: pointer; margin-bottom: 6px; font-size: 12px; background: var(--bg-card); border: 1px solid var(--border-color); transition: 0.2s; }
-    .chat-user-item:hover, .chat-user-item.active { border-color: var(--accent-red); background: #1a080c; }
-    .chat-room { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 10px; display: flex; flex-direction: column; height: 340px; padding: 12px; }
+    .chat-users-list { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; height: 340px; overflow-y: auto; }
+    .chat-user-item { padding: 10px; border-radius: 4px; cursor: pointer; margin-bottom: 6px; font-size: 12px; background: var(--bg-card); border: 1px solid var(--border-color); transition: 0.2s; }
+    .chat-user-item:hover, .chat-user-item.active { border-color: var(--accent-cyan); background: #220a0a; }
+    .chat-room { background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 4px; display: flex; flex-direction: column; height: 340px; padding: 12px; }
     .messages-box { flex: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-    .msg { padding: 8px 12px; border-radius: 6px; font-size: 12px; max-width: 75%; font-family: 'JetBrains Mono', monospace; }
-    .msg.client { background: #14070a; align-self: flex-start; border: 1px solid var(--border-color); }
-    .msg.admin { background: rgba(255, 30, 56, 0.15); border: 1px solid var(--accent-red); align-self: flex-end; color: var(--accent-red); }
+    .msg { padding: 8px 12px; border-radius: 4px; font-size: 12px; max-width: 75%; font-family: 'JetBrains Mono', monospace; }
+    .msg.client { background: #1a0808; align-self: flex-start; border: 1px solid var(--border-color); }
+    .msg.admin { background: rgba(255, 20, 54, 0.168); border: 1px solid var(--accent-cyan); align-self: flex-end; color: var(--accent-cyan); }
     .chat-input-area { display: flex; gap: 8px; }
-    .chat-input-area input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .chat-input-area input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 4px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(5, 5, 8, 0.88); backdrop-filter: blur(10px);
+      background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(10px);
       display: none; justify-content: center; align-items: center; z-index: 10000;
     }
     .modal-box {
       background: var(--bg-card); border: 1px solid var(--border-color);
-      width: 100%; max-width: 400px; padding: 35px; border-radius: 16px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8); position: relative;
+      width: 100%; max-width: 400px; padding: 35px; border-radius: 8px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85), 0 0 40px rgba(255, 20, 54, 0.084); position: relative;
     }
-    .modal-box h2 { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); font-family: 'JetBrains Mono', monospace; }
+    .modal-box h2 { font-family: var(--heading-font); font-size: 27px; font-weight: 700; margin-bottom: 20px; color: var(--gold-soft); font-style: italic; }
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
     .form-group input {
       width: 100%; background: var(--bg-deep); border: 1px solid var(--border-color);
-      padding: 10px 12px; border-radius: 6px; color: var(--text-main); font-size: 13px; font-family: 'JetBrains Mono', monospace;
+      padding: 10px 12px; border-radius: 4px; color: var(--text-main); font-size: 13px; font-family: 'JetBrains Mono', monospace;
     }
-    .form-group input:focus { border-color: var(--accent-red); outline: none; box-shadow: 0 0 10px rgba(255,30,56,0.2); }
+    .form-group input:focus { border-color: var(--accent-cyan); outline: none; box-shadow: 0 0 10px rgba(255, 20, 54, 0.21); }
     .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 20px; transition: 0.2s; }
-    .modal-close:hover { color: var(--accent-red); }
+    .modal-close:hover { color: var(--accent-cyan); }
 
     .chat-widget-btn {
       position: fixed; bottom: 30px; right: 30px;
-      background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
-      color: #ffffff; width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-soft), var(--accent-cyan) 60%, var(--accent-cyan-dark));
+      color: #060505; width: 56px; height: 56px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center; font-size: 24px;
-      cursor: pointer; box-shadow: 0 6px 25px rgba(255, 30, 56, 0.4); z-index: 9999; transition: 0.3s;
+      cursor: pointer; box-shadow: 0 6px 25px rgba(255, 20, 54, 0.56); z-index: 9999; transition: 0.3s;
     }
-    .chat-widget-btn:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(255, 30, 56, 0.6); }
+    .chat-widget-btn::before {
+      content: '';
+      position: absolute; inset: -6px; border-radius: 50%;
+      border: 2px solid var(--blood-red-bright);
+      animation: pulse-ring 2.2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.85); opacity: 0.8; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
+    .chat-widget-btn:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(255, 20, 54, 0.84); }
 
     .chat-popup {
       position: fixed; bottom: 100px; right: 30px; width: 340px;
       background: var(--bg-card); border: 1px solid var(--border-color);
-      border-radius: 14px; display: none; flex-direction: column; height: 420px;
+      border-radius: 4px; display: none; flex-direction: column; height: 420px;
       z-index: 9999; box-shadow: 0 15px 40px rgba(0,0,0,0.8); overflow: hidden;
     }
-    .chat-popup-header { background: #1a080c; padding: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-red); letter-spacing: 0.5px; }
+    .chat-popup-header { background: #220a0a; padding: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); letter-spacing: 0.5px; }
     .close-chat { cursor: pointer; color: var(--text-muted); font-size: 16px; }
     .close-chat:hover { color: var(--text-main); }
     .chat-popup-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
     .chat-popup-footer { padding: 12px; border-top: 1px solid var(--border-color); display: flex; gap: 8px; background: var(--bg-deep); }
-    .chat-popup-footer input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 6px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .chat-popup-footer input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 8px 10px; border-radius: 4px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
 
     /* Admin Users Table Styling */
     .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
     .user-table th, .user-table td { border: 1px solid var(--border-color); padding: 8px 12px; text-align: left; }
-    .user-table th { background: var(--bg-deep); color: var(--accent-red); }
+    .user-table th { background: var(--bg-deep); color: var(--accent-cyan); }
 
-    footer { text-align: center; padding: 40px; background: var(--bg-deep); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-color); font-size: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+    footer { text-align: center; padding: 40px; background: var(--bg-deep); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-color); position: relative; font-size: 12px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+    footer::before { content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 140px; height: 2px; background: linear-gradient(90deg, var(--blood-red), var(--accent-cyan)); }
 
     @media(max-width: 768px) {
       .hero h1 { font-size: 34px; }
@@ -269,17 +353,17 @@
 </head>
 <body>
 
-  <header>
+  <header data-aos="fade-down" data-aos-duration="800">
     <div class="logo">
-      <a href="https://ibb.co/5WscYTXK"><img src="https://i.ibb.co/0jYJBqps/cleared-image-removebg-preview.png" alt="Market Predators Logo" border="0"></a>
-      <div class="logo-text">MARKET PREDATORS</div>
+      <img src="https://i.ibb.co/0jYJBqps/cleared-image-removebg-preview.png" alt="Rogue Markets Logo">
+      <div class="logo-text">ROGUE MARKETS</div>
     </div>
     <div class="nav-links">
       <a href="#services">Core Services</a>
       <a href="#team">Execution Desk</a>
       <a href="#pricing">Investment Tiers</a>
       <a href="#cases">Fund Performance</a>
-      <a href="#about">About Syndicate</a>
+      <a href="#about">About Firm</a>
     </div>
     <div class="nav-actions" id="authNavActions">
       <button class="btn-outline" id="openLoginBtn">Login</button>
@@ -288,169 +372,169 @@
   </header>
 
   <section class="hero">
-    <div class="hero-badge">Aggressive Growth • Strategy • Execution</div>
-    <h1>Dominate Global Markets With<br><span>Apex Predator Execution</span></h1>
-    <p>We command institutional forex liquidity, deploy aggressive algorithmic strategies, and syndicate elite market predators across global financial arenas. ⚡</p>
+    <div class="hero-badge" data-aos="fade-down" data-aos-delay="100">Institutional Grade Trading & Fund Management</div>
+    <h1 data-aos="fade-up" data-aos-delay="200">Master Global Markets With<br><span>Advanced Quantitative Execution</span></h1>
+    <p data-aos="fade-up" data-aos-delay="300">We manage institutional liquidity, execute precision multi-asset trading algorithms, and mentor elite market participants across global exchanges.</p>
     
-    <div class="hero-buttons">
-      <button class="btn-primary" id="heroChatBtn">Start Predator Terminal 💬</button>
-      <a href="#pricing" class="btn-outline" style="padding: 13px 26px; font-weight: 700;">View Investment Tiers 🔥</a>
+    <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
+      <button class="btn-primary" id="heroChatBtn">Start Live Terminal 💬</button>
+      <a href="#pricing" class="btn-outline" style="padding: 13px 26px; font-weight: 700;">View Investment Tiers</a>
     </div>
 
-    <div class="metrics-bar">
-      <div class="metric-item"><h3>96.4%</h3><p>Strike Accuracy</p></div>
-      <div class="metric-item"><h3>$15M+</h3><p>Syndicate Volume</p></div>
-      <div class="metric-item"><h3>1:6+</h3><p>Risk-Reward Ratio</p></div>
-      <div class="metric-item"><h3>24/7</h3><p>Aggressive Tracking</p></div>
+    <div class="metrics-bar" data-aos="zoom-in-up" data-aos-delay="500">
+      <div class="metric-item"><h3>94.2%</h3><p>Execution Accuracy</p></div>
+      <div class="metric-item"><h3>$12M+</h3><p>Managed Capital</p></div>
+      <div class="metric-item"><h3>1:5+</h3><p>Risk-Reward Ratio</p></div>
+      <div class="metric-item"><h3>24/7</h3><p>Live Risk Oversight</p></div>
     </div>
   </section>
 
   <div id="services" class="container">
-    <h2 class="section-title">Syndicate Trading Competencies</h2>
-    <p class="section-desc">Uncompromising price action mastery backed by ruthless mathematical risk parameters.</p>
+    <h2 class="section-title" data-aos="fade-up">Core Trading & Fund Competencies</h2>
+    <p class="section-desc" data-aos="fade-up" data-aos-delay="100">We combine institutional price action mechanics with strict mathematical risk management frameworks.</p>
 
     <div class="competencies-grid">
-      <div class="competency-card">
-        <div class="comp-icon">🩸</div>
-        <h3>Apex Fund Management</h3>
-        <p>Aggressive capital deployment across international forex pairs with strict stop-loss architectures and maximum alpha.</p>
-        <div class="tech-tags"><span class="tag">Forex Liquidity</span><span class="tag">Gold Volatility</span><span class="tag">Indices</span></div>
+      <div class="competency-card" data-aos="fade-up" data-aos-delay="150">
+        <div class="comp-icon">💰</div>
+        <h3>Institutional Fund Management</h3>
+        <p>Capital allocation across international exchanges with dynamic drawdown protection and automated risk parameters.</p>
+        <div class="tech-tags"><span class="tag">Forex Liquidity</span><span class="tag">Crypto Assets</span><span class="tag">Equities</span></div>
       </div>
-      <div class="competency-card">
-        <div class="comp-icon">🎯</div>
-        <h3>Predator Mentorship</h3>
-        <p>Zero-sympathy training transforming retail traders into disciplined market execution machines.</p>
-        <div class="tech-tags"><span class="tag">Order Flow</span><span class="tag">Market Structure</span><span class="tag">Psychology</span></div>
+      <div class="competency-card" data-aos="fade-up" data-aos-delay="250">
+        <div class="comp-icon">🎓</div>
+        <h3>Elite Trading Education</h3>
+        <p>Rigorous, data-backed training models taking traders from foundational mechanics to proprietary execution frameworks.</p>
+        <div class="tech-tags"><span class="tag">Price Action</span><span class="tag">Order Flow</span><span class="tag">Risk Psychology</span></div>
       </div>
-      <div class="competency-card">
-        <div class="comp-icon">⚡</div>
-        <h3>Private Syndicate Consulting</h3>
-        <p>Custom risk frameworks and high-speed execution channels built specifically for elite private trading circles.</p>
-        <div class="tech-tags"><span class="tag">Risk Structuring</span><span class="tag">Macro Hunts</span><span class="tag">Speed Tuning</span></div>
+      <div class="competency-card" data-aos="fade-up" data-aos-delay="350">
+        <div class="comp-icon">🛡️</div>
+        <h3>Private Account Consulting</h3>
+        <p>Custom account handling and infrastructure consulting tailored for high-net-worth investors and private syndicates.</p>
+        <div class="tech-tags"><span class="tag">Risk Structuring</span><span class="tag">Macro Analysis</span><span class="tag">Speed Tuning</span></div>
       </div>
     </div>
   </div>
 
   <div id="team" class="container">
-    <h2 class="section-title">Syndicate Leadership & Execution Desk</h2>
-    <p class="section-desc">Meet the core commanders driving institutional-grade market dominance.</p>
+    <h2 class="section-title" data-aos="fade-up">Executive Leadership & Fund Managers</h2>
+    <p class="section-desc" data-aos="fade-up" data-aos-delay="100">Meet the professional quantitative traders and risk strategists driving institutional performance.</p>
     
-    <div class="team-grid" id="publicTeamGrid">
-      <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">Loading syndicate commanders...</div>
+    <div class="team-grid" id="publicTeamGrid" data-aos="fade-up" data-aos-delay="200">
+      <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">Loading executive team profiles...</div>
     </div>
   </div>
 
   <div id="pricing" class="container">
-    <h2 class="section-title">Aggressive Investment Tiers</h2>
-    <p class="section-desc">Select your tier to enter the syndicate network and scale your trading capacity.</p>
+    <h2 class="section-title" data-aos="fade-up">Transparent Investment Tiers</h2>
+    <p class="section-desc" data-aos="fade-up" data-aos-delay="100">Choose a structured fund management program or elite mentorship tier tailored to your financial goals.</p>
 
     <div class="pricing-grid">
-      <div class="price-card">
+      <div class="price-card" data-aos="fade-right" data-aos-delay="150">
         <div class="price-header">
-          <span>✍️ Predator Mentorship</span>
+          <span>Mentorship Program</span>
           <h3>Advanced Price Action & Execution</h3>
           <div class="price-tag">$250 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ program</span></div>
-          <p>Cut out retail noise and learn to hunt institutional liquidity with clinical precision.</p>
+          <p>Designed to eliminate emotional bias and secure absolute consistency in your personal trading strategy.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Full Access to Proprietary Price Action Modules & Blueprints.</li>
-            <li>✅ Live Market Hunts & Weekly Setup Dissections.</li>
-            <li>✅ Strict Risk-Management Rulebook & Discipline Logs.</li>
+            <li>✅ Full Access to Proprietary Price Action Modules & Video Content.</li>
+            <li>✅ Live Market Dissection & Weekly Setup Breakdowns.</li>
+            <li>✅ Strict Risk-Management Rulebook & Journaling Framework.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Enroll via Live Chat ⚡</button>
+          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Enroll via Live Chat</button>
         </div>
       </div>
 
-      <div class="price-card popular">
-        <div class="popular-badge">Apex Choice 🔥</div>
+      <div class="price-card popular" data-aos="zoom-in" data-aos-delay="200">
+        <div class="popular-badge">Most Popular</div>
         <div class="price-header">
           <span>🔌 Capital Allocation</span>
-          <h3>Syndicate Fund Portfolio Tier</h3>
+          <h3>Managed Fund Portfolio Tier</h3>
           <div class="price-tag">$1,000 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ min capital</span></div>
-          <p>Let syndicate commanders trade your capital using proven high-alpha algorithmic frameworks.</p>
+          <p>Entrust your capital to professional fund managers operating under strict institutional risk parameters.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Active Forex & Gold Execution Managed by Professionals.</li>
-            <li>✅ Real-Time Telemetry & Transparent Performance Audits.</li>
-            <li>✅ Aggressive Drawdown Guardrails & Volatility Shields.</li>
+            <li>✅ Active Multi-Asset Trading Across Forex, Gold, & Cryptocurrencies.</li>
+            <li>✅ Real-Time Performance Telemetry & Transparent Auditing.</li>
+            <li>✅ Strict 2% Max Drawdown Protection per Session.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Join Syndicate 🚀</button>
+          <button class="btn-red price-chat-btn" style="width: 100%; text-align: center;">Partner With Us</button>
         </div>
       </div>
 
-      <div class="price-card">
+      <div class="price-card" data-aos="fade-left" data-aos-delay="250">
         <div class="price-header">
-          <span>👑 VIP Advisory</span>
+          <span>💰 VIP Advisory</span>
           <h3>Private Syndicate Consulting</h3>
           <div class="price-tag">$500 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ month</span></div>
-          <p>Direct 1-on-1 strategic roadmap building for high-capital traders and private funds.</p>
+          <p>Direct 1-on-1 strategic roadmap building for high-net-worth individuals scaling private trading syndicates.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Weekly Private Strategy Directives with Lead Commanders.</li>
-            <li>✅ Custom Portfolio Hedging & Risk Distribution Blueprints.</li>
-            <li>✅ Direct Priority Node via Encrypted Communication.</li>
+            <li>✅ Weekly Private Strategy Calls with Lead Fund Managers.</li>
+            <li>✅ Customized Portfolio Diversification & Hedging Blueprint.</li>
+            <li>✅ Direct Priority Communication Node via Secure Channels.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Secure Access ⚡</button>
+          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Book Consultation</button>
         </div>
       </div>
     </div>
   </div>
 
   <div id="cases" class="container">
-    <h2 class="section-title">Predator Success Stories & Track Record</h2>
-    <p class="section-desc">Verified results from private partners and syndicate members who scaled their portfolios.</p>
+    <h2 class="section-title" data-aos="fade-up">Client Performance & Success Stories</h2>
+    <p class="section-desc" data-aos="fade-up" data-aos-delay="100">Verified metrics from private investors and students who scaled their portfolios with Rogue Markets.</p>
 
     <div class="cases-grid">
-      <div class="case-card">
+      <div class="case-card" data-aos="fade-up" data-aos-delay="150">
         <div class="case-top"><span class="case-tag">Fund Management</span><span class="rating">⭐ 5.0</span></div>
-        <h3>Syndicate Growth Portfolio</h3>
-        <p class="case-meta"><strong>Challenge:</strong> Eradicating emotional drawdowns caused by erratic retail entries.</p>
-        <div class="case-result">Result: Consistent 32% net quarterly growth achieved.</div>
+        <h3>Private Capital Growth Portfolio</h3>
+        <p class="case-meta"><strong>Challenge:</strong> Consistent drawdowns from emotional retail trading habits.</p>
+        <div class="case-result">Result: Steady 28% quarterly net growth achieved.</div>
         <div class="client-sig">Sohaib Ahmed — Private Investor, Lahore</div>
       </div>
-      <div class="case-card">
-        <div class="case-top"><span class="case-tag">Mentorship</span><span class="rating">⭐ 4.9</span></div>
-        <h3>From Retail Losses to Funded Pro</h3>
-        <p class="case-meta"><strong>Challenge:</strong> Zero structural risk management and poor leverage control.</p>
-        <div class="case-result">Result: Cleared 50K prop firm challenge in 18 days.</div>
+      <div class="case-card" data-aos="fade-up" data-aos-delay="250">
+        <div class="case-top"><span class="case-tag">Trading Mentorship</span><span class="rating">⭐ 4.9</span></div>
+        <h3>From Retail Loss to Funded Pro</h3>
+        <p class="case-meta"><strong>Challenge:</strong> Lack of structured risk framework and poor entry precision.</p>
+        <div class="case-result">Result: Passed 50K prop firm evaluation in 3 weeks.</div>
         <div class="client-sig">Hamza Tariq — Full-Time Trader</div>
       </div>
-      <div class="case-card">
-        <div class="case-top"><span class="case-tag">Advisory</span><span class="rating">⭐ 4.8</span></div>
+      <div class="case-card" data-aos="fade-up" data-aos-delay="350">
+        <div class="case-top"><span class="case-tag">Account Consulting</span><span class="rating">⭐ 4.8</span></div>
         <h3>Syndicate Risk Restructuring</h3>
-        <p class="case-meta"><strong>Challenge:</strong> High volatility exposure during aggressive macroeconomic releases.</p>
-        <div class="case-result">Result: Zero major losses during Fed rate announcements.</div>
+        <p class="case-meta"><strong>Challenge:</strong> High exposure volatility during major macroeconomic news releases.</p>
+        <div class="case-result">Result: Zero major drawdowns during Fed rate announcements.</div>
         <div class="client-sig">Usman Ghani — Syndicate Lead, Karachi</div>
       </div>
     </div>
 
-    <div id="admin-panel">
-      <h3 style="color: var(--accent-red); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; font-size: 16px;">🩸 Market Predators Admin Live Console</h3>
-      <p style="color: var(--text-muted); font-size: 12px; font-family: 'JetBrains Mono', monospace;">Restricted Terminal — Registered Users, Live Client Chats & Syndicate Team.</p>
+    <div id="admin-panel" data-aos="fade-in">
+      <h3 style="color: var(--accent-cyan); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; font-size: 16px;">Rogue Markets Admin Console</h3>
+      <p style="color: var(--text-muted); font-size: 12px; font-family: 'JetBrains Mono', monospace;">Restricted Terminal — Registered Users, Live Client Chats & Team Management.</p>
       
-      <div style="background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px; margin-top: 18px;">
-        <h4 style="color: var(--accent-red); margin-bottom: 10px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">👥 Add / Setup Syndicate Member</h4>
+      <div style="background: var(--bg-deep); border: 1px solid var(--border-color); border-radius: 4px; padding: 18px; margin-top: 18px;">
+        <h4 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">👥 Add / Setup Team Member</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px;">
           <div class="form-group" style="margin-bottom:0;"><label>Member Name</label><input type="text" id="adminTeamName" placeholder="e.g. Alex Vance"></div>
-          <div class="form-group" style="margin-bottom:0;"><label>Title / Role</label><input type="text" id="adminTeamTitle" placeholder="e.g. Chief Risk Commander"></div>
-          <div class="form-group" style="margin-bottom:0;"><label>Email Address</label><input type="email" id="adminTeamEmail" placeholder="e.g. alex@marketpredators.com"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Title / Role</label><input type="text" id="adminTeamTitle" placeholder="e.g. Chief Quant Strategist"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Email Address</label><input type="email" id="adminTeamEmail" placeholder="e.g. alex@roguemarkets.com"></div>
           <div class="form-group" style="margin-bottom:0;"><label>Phone Number</label><input type="text" id="adminTeamPhone" placeholder="e.g. +92 300 1234567"></div>
         </div>
         <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
           <div class="form-group" style="margin-bottom:0; flex:1;"><label>Profile Picture URL</label><input type="text" id="adminTeamImage" placeholder="Paste Image URL"></div>
-          <button class="btn-primary" id="addTeamBtn" style="margin-top: 16px; padding: 10px 18px;">Add Member 🚀</button>
+          <button class="btn-primary" id="addTeamBtn" style="margin-top: 16px; padding: 10px 18px;">Add Member</button>
         </div>
       </div>
 
       <div class="admin-grid">
         <div class="chat-users-list" id="adminChatUsersList">
-          <div style="font-size: 10px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div>
+          <div style="font-size: 10px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div>
         </div>
         <div class="chat-room">
-          <div style="font-size: 12px; font-weight: 700; color: var(--accent-red); margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; font-family: 'JetBrains Mono', monospace;" id="adminActiveChatHeader">
+          <div style="font-size: 12px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; font-family: 'JetBrains Mono', monospace;" id="adminActiveChatHeader">
             Select a user to chat 👆
           </div>
           <div class="messages-box" id="adminMessagesBox"></div>
@@ -462,7 +546,7 @@
       </div>
 
       <div style="margin-top: 25px; overflow-x: auto;">
-        <div style="font-size: 11px; font-weight: 700; color: var(--accent-red); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Signed Up Users Database 📋</div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Signed Up Users Database 📋</div>
         <table class="user-table">
           <thead>
             <tr>
@@ -477,7 +561,7 @@
       </div>
 
       <div style="margin-top: 25px; overflow-x: auto;">
-        <div style="font-size: 11px; font-weight: 700; color: var(--accent-red); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Manage Syndicate Team 👥</div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Manage Team Members 👥</div>
         <table class="user-table">
           <thead>
             <tr>
@@ -496,28 +580,28 @@
   </div>
 
   <div id="about" class="container">
-    <div class="about-wrapper">
-      <div class="about-text">
-        <h2 style="background: linear-gradient(135deg, #ffffff, var(--accent-red)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Engineered for Alpha & Ruthless Execution</h2>
-        <p>Market Predators bridges the gap between massive global forex liquidity and disciplined risk control. We don't guess market direction; we hunt it.</p>
+    <div class="about-wrapper" data-aos="fade-up">
+      <div class="about-text" data-aos="fade-right" data-aos-delay="100">
+        <h2 style="font-family: var(--heading-font); font-size: 38px; font-weight: 700; font-style: italic; background: linear-gradient(135deg, #ffffff, var(--gold-soft), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Engineered for Maximum Alpha & Security</h2>
+        <p>Rogue Markets bridges the gap between complex global market liquidity and disciplined risk execution. We rely on mathematical precision and professional execution.</p>
         <ul class="about-checklist">
-          <li>✅ Transparent, real-time auditing and strict telemetry</li>
-          <li>✅ Ruthless mathematical drawdown limitation on all accounts</li>
+          <li>✅ Transparent, real-time auditing and trade telemetry</li>
+          <li>✅ Strict mathematical drawdown limitations on all accounts</li>
         </ul>
       </div>
-      <div class="stack-grid">
-        <div class="stack-item">📈 Forex & Gold</div>
-        <div class="stack-item">🪙 Liquidity Hunts</div>
-        <div class="stack-item">🛡️ Risk Shield</div>
-        <div class="stack-item">⚡ 24/7 Monitoring</div>
+      <div class="stack-grid" data-aos="fade-left" data-aos-delay="200">
+        <div class="stack-item" data-aos="zoom-in" data-aos-delay="250">Forex &amp; Indices</div>
+        <div class="stack-item" data-aos="zoom-in" data-aos-delay="300">🪙 Crypto Liquidity</div>
+        <div class="stack-item" data-aos="zoom-in" data-aos-delay="350">🛡️ Risk Architecture</div>
+        <div class="stack-item" data-aos="zoom-in" data-aos-delay="400">24/7 Market Tracking</div>
       </div>
     </div>
   </div>
 
   <div class="modal-overlay" id="signupModal">
-    <div class="modal-box">
+    <div class="modal-box" data-aos="zoom-in" data-aos-duration="300">
       <span class="modal-close" id="closeSignupModal">&times;</span>
-      <h2>Join Syndicate ✍️</h2>
+      <h2>Create Account</h2>
       <div class="form-group">
         <label>Full Name</label>
         <input type="text" id="signupName" placeholder="Enter your name">
@@ -530,14 +614,14 @@
         <label>Password</label>
         <input type="password" id="signupPassword" placeholder="Enter your password">
       </div>
-      <button class="btn-primary" id="submitSignupBtn" style="width: 100%; margin-top: 10px;">Sign Up 🚀</button>
+      <button class="btn-primary" id="submitSignupBtn" style="width: 100%; margin-top: 10px;">Sign Up</button>
     </div>
   </div>
 
   <div class="modal-overlay" id="loginModal">
-    <div class="modal-box">
+    <div class="modal-box" data-aos="zoom-in" data-aos-duration="300">
       <span class="modal-close" id="closeLoginModal">&times;</span>
-      <h2>Predator Portal Login ⚡</h2>
+      <h2>Welcome Back</h2>
       <div class="form-group">
         <label>Email Address</label>
         <input type="email" id="loginEmail" placeholder="Enter your email">
@@ -546,7 +630,7 @@
         <label>Password</label>
         <input type="password" id="loginPassword" placeholder="Enter your password">
       </div>
-      <button class="btn-primary" id="submitLoginBtn" style="width: 100%; margin-top: 10px;">Login 🔓</button>
+      <button class="btn-primary" id="submitLoginBtn" style="width: 100%; margin-top: 10px;">Login</button>
     </div>
   </div>
 
@@ -554,11 +638,11 @@
 
   <div class="chat-popup" id="chatPopup">
     <div class="chat-popup-header">
-      <span>⚡ Predator Live Support</span>
+      <span>Rogue Support Live</span>
       <span class="close-chat" id="closeChatPopup">&times;</span>
     </div>
     <div class="chat-popup-body" id="clientMessagesBox">
-      <div class="msg client" style="background: rgba(255,30,56,0.08); color: var(--accent-red); border: 1px solid rgba(255,30,56,0.3);">Welcome to Market Predators! Type your message to connect with our trading desk. 📈</div>
+      <div class="msg client" style="background: rgba(255, 20, 54, 0.112); color: var(--accent-cyan); border: 1px solid rgba(255, 20, 54, 0.42);">Welcome to Rogue Markets. Type your message below to chat with our fund manager.</div>
     </div>
     <div class="chat-popup-footer">
       <input type="text" id="clientInput" placeholder="Type your message...">
@@ -567,11 +651,22 @@
   </div>
 
   <footer>
-    <p>&copy; 2026 Market Predators. All rights reserved. Built for aggressive execution.</p>
+    <p>&copy; 2026 Rogue Markets. All rights reserved. Built for institutional-grade execution.</p>
   </footer>
+
+  <!-- AOS (Animate On Scroll) Library JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // Initialize AOS Scroll Animations
+      AOS.init({
+        duration: 800,
+        easing: 'ease-out-cubic',
+        once: true,
+        offset: 50
+      });
+
       const SUPABASE_URL = 'https://meirbgubkltpjdbzomlh.supabase.co';
       const SUPABASE_ANON_KEY = 'sb_publishable_4mcxuh0b2F5Lwx_UfAMtoA_1KDW7OAt';
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -593,9 +688,9 @@
       document.getElementById('closeSignupModal').addEventListener('click', () => signupModal.style.display = 'none');
 
       const toggleChat = () => {
-        const sessionData = localStorage.getItem('predator_user');
+        const sessionData = localStorage.getItem('rogue_user');
         if (!sessionData) {
-          alert("⚠️ Live chat use karne ke liye pehle Login karna lazmi hai!");
+          alert("Please log in to start a live chat session.");
           loginModal.style.display = 'flex';
           return;
         }
@@ -628,7 +723,7 @@
         const password = document.getElementById('signupPassword').value.trim();
 
         if(!name || !email || !password) {
-          alert("Saari fields lazmi fill karein!");
+          alert("Please fill in all required fields.");
           return;
         }
 
@@ -639,7 +734,7 @@
           .single();
 
         if (existingUser) {
-          alert("Yeh email pehle se registered hai!");
+          alert("This email is already registered.");
           return;
         }
 
@@ -652,8 +747,8 @@
           return;
         }
 
-        localStorage.setItem('predator_user', JSON.stringify({ name, email }));
-        alert("Syndicate account successfully create ho gaya! 🎉");
+        localStorage.setItem('rogue_user', JSON.stringify({ name, email }));
+        alert("Account created successfully.");
         signupModal.style.display = 'none';
         updateNavAuth();
       });
@@ -663,7 +758,7 @@
         const password = document.getElementById('loginPassword').value.trim();
 
         if(!email || !password) {
-          alert("Email aur password dono enter karein!");
+          alert("Please enter both email and password.");
           return;
         }
 
@@ -675,28 +770,28 @@
           .single();
 
         if (error || !user) {
-          alert("Ghalat email ya password! Dubara koshish karein.");
+          alert("Incorrect email or password. Please try again.");
           return;
         }
 
-        localStorage.setItem('predator_user', JSON.stringify({ name: user.full_name, email: user.email }));
-        alert("Khushamdeed! Login successful 🚀");
+        localStorage.setItem('rogue_user', JSON.stringify({ name: user.full_name, email: user.email }));
+        alert("Welcome back. Login successful.");
         loginModal.style.display = 'none';
         updateNavAuth();
       });
 
       window.handleLogout = function() {
-        localStorage.removeItem('predator_user');
+        localStorage.removeItem('rogue_user');
         document.getElementById('admin-panel').style.display = 'none';
         chatPopup.style.display = 'none';
-        alert("Successfully logout ho gaye.");
+        alert("You have been logged out successfully.");
         updateNavAuth();
       };
 
       async function updateNavAuth() {
         const navLinks = document.querySelector('.nav-links');
         const navActions = document.getElementById('authNavActions');
-        const sessionData = localStorage.getItem('predator_user');
+        const sessionData = localStorage.getItem('rogue_user');
         
         const existingAdminLink = document.getElementById('adminNavLink');
         if (existingAdminLink) existingAdminLink.remove();
@@ -709,7 +804,7 @@
           if (adminEmails.includes(userEmail)) {
             const adminLink = document.createElement('a');
             adminLink.id = 'adminNavLink';
-            adminLink.style.color = 'var(--accent-red)';
+            adminLink.style.color = 'var(--accent-cyan)';
             adminLink.style.fontWeight = '700';
             adminLink.innerHTML = '🔒 Admin Terminal';
             adminLink.onclick = () => {
@@ -722,7 +817,7 @@
           }
 
           navActions.innerHTML = `
-            <span style="font-size: 12px; font-weight: 600; color: var(--accent-red); margin-right: 5px; font-family: 'JetBrains Mono', monospace;">👤 ${userName}</span>
+            <span style="font-size: 12px; font-weight: 600; color: var(--accent-cyan); margin-right: 5px; font-family: 'JetBrains Mono', monospace;">👤 ${userName}</span>
             <button class="btn-outline" onclick="handleLogout()">Logout</button>
           `;
         } else {
@@ -747,14 +842,14 @@
         const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: true });
 
         if (error || !team || team.length === 0) {
-          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">No syndicate commanders published yet.</div>`;
+          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">No executive team profiles published yet.</div>`;
           return;
         }
 
         grid.innerHTML = '';
-        team.forEach(m => {
+        team.forEach((m, index) => {
           grid.innerHTML += `
-            <div class="team-card">
+            <div class="team-card" data-aos="fade-up" data-aos-delay="${(index + 1) * 100}">
               <img src="${m.image_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'}" alt="${m.name}" class="team-avatar">
               <h3>${m.name}</h3>
               <div class="team-title">${m.title}</div>
@@ -763,6 +858,8 @@
             </div>
           `;
         });
+        // Refresh AOS to detect newly inserted dynamic elements
+        AOS.refresh();
       }
 
       document.getElementById('addTeamBtn').addEventListener('click', async () => {
@@ -773,18 +870,18 @@
         const image_url = document.getElementById('adminTeamImage').value.trim() || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300';
 
         if (!name || !title || !email || !phone) {
-          alert("Syndicate member ki saari mandatory fields fill karein!");
+          alert("Please fill in all required team member fields.");
           return;
         }
 
         const { error } = await supabase.from('team_members').insert([{ name, title, email, phone, image_url }]);
 
         if (error) {
-          alert("Error adding member: " + error.message);
+          alert("Error adding team member: " + error.message);
           return;
         }
 
-        alert("Syndicate member successfully add ho gaya! 🎉");
+        alert("Team member added successfully.");
         document.getElementById('adminTeamName').value = '';
         document.getElementById('adminTeamTitle').value = '';
         document.getElementById('adminTeamEmail').value = '';
@@ -800,7 +897,7 @@
         const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: false });
 
         if (error || !team || team.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Koi team member add nahi kiya gaya.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No team members have been added yet.</td></tr>`;
           return;
         }
 
@@ -810,17 +907,17 @@
             <tr>
               <td><img src="${m.image_url}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;"></td>
               <td>${m.name}</td>
-              <td style="color: var(--accent-red);">${m.title}</td>
+              <td style="color: var(--accent-cyan);">${m.title}</td>
               <td>${m.email}</td>
               <td>${m.phone}</td>
-              <td><button class="btn-outline" style="padding: 3px 6px; font-size: 10px; border-color: #ff1e38; color: #ff1e38;" onclick="deleteTeamMember('${m.id}')">Delete</button></td>
+              <td><button class="btn-outline" style="padding: 3px 6px; font-size: 10px; border-color: var(--blood-red-bright); color: var(--blood-red-bright);" onclick="deleteTeamMember('${m.id}')">Delete</button></td>
             </tr>
           `;
         });
       }
 
       window.deleteTeamMember = async function(id) {
-        if (!confirm("Kya aap waqai is member ko remove karna chahte hain?")) return;
+        if (!confirm("Are you sure you want to remove this team member?")) return;
 
         const { error } = await supabase.from('team_members').delete().eq('id', id);
         if (error) {
@@ -837,7 +934,7 @@
         const { data: users, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
 
         if (error || !users || users.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Abhi tak koi user sign up nahi hua.</td></tr>`;
+          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No users have signed up yet.</td></tr>`;
           return;
         }
 
@@ -848,7 +945,7 @@
             <tr>
               <td>${u.full_name}</td>
               <td>${u.email}</td>
-              <td style="color: var(--accent-red); font-family: monospace;">${u.password}</td>
+              <td style="color: var(--accent-cyan); font-family: monospace;">${u.password}</td>
               <td style="font-size: 11px; color: var(--text-muted);">${date}</td>
             </tr>
           `;
@@ -860,7 +957,7 @@
         const { data: messages, error } = await supabase.from('messages').select('*').order('created_at', { ascending: false });
 
         if (error || !messages || messages.length === 0) {
-          listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div><div style="font-size: 11px; color: var(--text-muted);">Koi chat available nahi hai.</div>`;
+          listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div><div style="font-size: 11px; color: var(--text-muted);">No active chats available.</div>`;
           return;
         }
 
@@ -871,7 +968,7 @@
           }
         });
 
-        listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 700; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div>`;
+        listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Active Chats 💬</div>`;
         
         for (const [email, name] of Object.entries(uniqueUsers)) {
           listDiv.innerHTML += `
@@ -885,7 +982,7 @@
 
       window.selectAdminChat = function(email, name) {
         selectedChatEmail = email;
-        document.getElementById('adminActiveChatHeader').innerHTML = `💬 Chat with: <span style="color: var(--accent-red);">${name}</span> (${email})`;
+        document.getElementById('adminActiveChatHeader').innerHTML = `💬 Chat with: <span style="color: var(--accent-cyan);">${name}</span> (${email})`;
         loadAdminMessages(email);
         loadAdminChatUsers();
       }
@@ -919,7 +1016,7 @@
         const text = input.value.trim();
 
         if (!selectedChatEmail) {
-          alert("Pehle left side se koi user select karein!");
+          alert("Please select a user from the list first.");
           return;
         }
         if (!text) return;
@@ -941,7 +1038,7 @@
       });
 
       async function loadClientMessages() {
-        const session = JSON.parse(localStorage.getItem('predator_user'));
+        const session = JSON.parse(localStorage.getItem('rogue_user'));
         if (!session) return;
 
         const box = document.getElementById('clientMessagesBox');
@@ -953,14 +1050,14 @@
 
         if (error) return;
 
-        box.innerHTML = `<div class="msg client" style="background: rgba(255,30,56,0.08); color: var(--accent-red); border: 1px solid rgba(255,30,56,0.3);">Welcome ${session.name}! Send your message below. 📈</div>`;
+        box.innerHTML = `<div class="msg client" style="background: rgba(255, 20, 54, 0.112); color: var(--accent-cyan); border: 1px solid rgba(255, 20, 54, 0.42);">Welcome, ${session.name}. Send your message below.</div>`;
 
         if (msgs && msgs.length > 0) {
           msgs.forEach(m => {
             if (m.sender_type === 'client') {
-              box.innerHTML += `<div class="msg client" style="background: #14070a; color: var(--text-main); align-self: flex-end; border: none;">${m.message}</div>`;
+              box.innerHTML += `<div class="msg client" style="background: #1a0808; color: var(--text-main); align-self: flex-end; border: none;">${m.message}</div>`;
             } else {
-              box.innerHTML += `<div class="msg client" style="background: rgba(255,30,56,0.08); color: var(--accent-red); border: 1px solid rgba(255,30,56,0.3);"><strong>Admin:</strong> ${m.message}</div>`;
+              box.length && (box.innerHTML += `<div class="msg client" style="background: rgba(255, 20, 54, 0.112); color: var(--accent-cyan); border: 1px solid rgba(255, 20, 54, 0.42);"><strong>Admin:</strong> ${m.message}</div>`);
             }
           });
         }
@@ -970,10 +1067,10 @@
       const sendClientMsg = async () => {
         const input = document.getElementById('clientInput');
         const text = input.value.trim();
-        const session = JSON.parse(localStorage.getItem('predator_user'));
+        const session = JSON.parse(localStorage.getItem('rogue_user'));
 
         if (!session) {
-          alert("Pehle login karein!");
+          alert("Please log in first.");
           return;
         }
         if (!text) return;
@@ -990,14 +1087,9 @@
           return;
         }
 
-        input.value = andClearInput(input);
+        input.value = '';
         loadClientMessages();
       };
-
-      function andClearInput(input) {
-        input.value = '';
-        return '';
-      }
 
       document.getElementById('sendClientBtn').addEventListener('click', sendClientMsg);
       document.getElementById('clientInput').addEventListener('keypress', (e) => {
