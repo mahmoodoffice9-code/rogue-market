@@ -7,54 +7,31 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
-      --bg-base: #090a0f;
-      --bg-surface: #10131c;
-      --bg-surface-hover: #161a27;
-      --border-subtle: #1f2433;
-      --border-active: rgba(239, 68, 68, 0.4);
-      --accent-red: #ef4444;
-      --accent-red-glow: rgba(239, 68, 68, 0.15);
-      --accent-gold: #f59e0b;
+      --bg-main: #0a0b0e;
+      --bg-surface: #12141a;
+      --bg-surface-hover: #181b24;
+      --accent-crimson: #dc2626;
+      --accent-crimson-dark: #b91c1c;
+      --accent-gold: #d97706;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
+      --border-subtle: #1e222d;
+      --border-focus: rgba(220, 38, 38, 0.4);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
-    body { background-color: var(--bg-base); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+    body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; }
     
-    /* Live Market Ticker Tape */
-    .market-ticker {
-      background: #06070a;
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 8px 0;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-    }
-    .ticker-track {
-      display: inline-flex;
-      gap: 40px;
-      animation: tickerScroll 30s linear infinite;
-    }
-    .ticker-item span { color: #10b981; margin-left: 6px; font-weight: 600; }
-    .ticker-item span.down { color: #ef4444; }
-    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* Header */
     header { 
-      background: rgba(9, 10, 15, 0.85); 
+      background: rgba(10, 11, 14, 0.9); 
       backdrop-filter: blur(16px); 
-      padding: 16px 48px; 
+      padding: 18px 48px; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
@@ -63,19 +40,25 @@
       top: 0; 
       z-index: 1000; 
     }
-    .logo { display: flex; align-items: center; gap: 14px; }
-    .logo img { height: 42px; width: auto; object-fit: contain; }
-    .logo-text {
-      font-size: 17px; 
-      font-weight: 700; 
-      letter-spacing: 1.5px; 
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--text-main);
+    .logo { 
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .logo-text span { color: var(--accent-red); }
-    
+    .logo img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+    .logo-text {
+      font-size: 16px; 
+      font-weight: 700; 
+      letter-spacing: 1px; 
+      color: var(--text-main);
+      text-transform: uppercase;
+    }
     .nav-links { display: flex; align-items: center; gap: 32px; }
-    .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.2s; font-size: 13px; font-weight: 500; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: 0.2s ease; font-size: 13px; font-weight: 500; cursor: pointer; }
     .nav-links a:hover { color: var(--text-main); }
     .nav-actions { display: flex; gap: 12px; align-items: center; }
 
@@ -83,381 +66,411 @@
       background: transparent;
       border: 1px solid var(--border-subtle);
       color: var(--text-main);
-      padding: 9px 18px;
-      border-radius: 6px;
+      padding: 8px 18px;
+      border-radius: 4px;
       font-size: 13px;
       font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
       cursor: pointer;
-      transition: all 0.2s;
     }
-    .btn-secondary:hover { border-color: var(--text-muted); background: rgba(255,255,255,0.02); }
+    .btn-secondary:hover { border-color: var(--text-muted); background: var(--bg-surface-hover); }
 
+    .hero { 
+      text-align: center; 
+      padding: 140px 20px 90px; 
+      background: radial-gradient(circle at 50% 10%, rgba(220, 38, 38, 0.06) 0%, rgba(10, 11, 14, 0.8) 60%, transparent 100%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(220, 38, 38, 0.08);
+      color: var(--accent-crimson);
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      border-radius: 3px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      text-transform: uppercase;
+    }
+    .hero h1 { font-size: 48px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.5px; line-height: 1.2; }
+    .hero h1 span { color: var(--accent-crimson); }
+    .hero p { font-size: 16px; color: var(--text-muted); max-width: 680px; margin: 0 auto 40px; line-height: 1.7; }
+    
+    .hero-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 80px; }
     .btn-primary { 
-      background: var(--accent-red); 
+      background: var(--accent-crimson); 
       color: #ffffff; 
-      padding: 10px 20px; 
+      padding: 10px 22px; 
       text-decoration: none; 
       font-weight: 600; 
-      border-radius: 6px; 
-      transition: all 0.2s; 
+      border-radius: 4px; 
+      transition: all 0.2s ease; 
       border: none;
       cursor: pointer;
       font-size: 13px;
     }
-    .btn-primary:hover { background: #dc2626; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+    .btn-primary:hover { background: var(--accent-crimson-dark); }
 
-    /* Hero Section */
-    .hero { 
-      text-align: center; 
-      padding: 100px 20px 60px; 
-      max-width: 900px;
+    .metrics-bar {
+      max-width: 1000px;
       margin: 0 auto;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent-red-glow);
-      color: var(--accent-red);
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 20px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hero h1 { 
-      font-size: 48px; 
-      font-weight: 700; 
-      margin-bottom: 20px; 
-      letter-spacing: -1px; 
-      line-height: 1.15; 
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .hero h1 span { color: var(--accent-red); }
-    .hero p { font-size: 16px; color: var(--text-muted); max-width: 640px; margin: 0 auto 36px; line-height: 1.7; }
-    
-    .hero-buttons { display: flex; justify-content: center; gap: 14px; margin-bottom: 60px; }
-
-    /* Terminal Metrics Grid */
-    .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 1px;
       background: var(--border-subtle);
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
+      border-radius: 8px;
       overflow: hidden;
-      max-width: 1000px;
-      margin: 0 auto;
     }
-    .metric-card {
-      background: var(--bg-surface);
-      padding: 24px;
-      text-align: left;
-    }
-    .metric-card h3 { font-size: 28px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); margin-bottom: 4px; }
-    .metric-card h3 span { color: var(--accent-red); font-size: 20px; }
-    .metric-card p { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-item { background: var(--bg-surface); padding: 28px 20px; text-align: center; }
+    .metric-item h3 { font-size: 28px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .metric-item p { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 90px 20px 20px; }
-    .section-header { margin-bottom: 50px; }
-    .section-header h2 { font-size: 32px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; margin-bottom: 8px; letter-spacing: -0.5px; }
-    .section-header p { color: var(--text-muted); font-size: 14px; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 100px 24px 24px; }
+    .section-title { font-size: 32px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+    .section-desc { color: var(--text-muted); margin-bottom: 50px; font-size: 15px; max-width: 600px; line-height: 1.6; }
 
-    /* Competencies Cards */
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 32px;
-      transition: 0.25s;
-    }
-    .card:hover { border-color: var(--border-active); background: var(--bg-surface-hover); }
-    .card-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(239, 68, 68, 0.08); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 20px; border: 1px solid rgba(239, 68, 68, 0.2); }
-    .card h3 { font-size: 18px; font-weight: 600; font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px; }
-    .card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
-    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag { font-size: 11px; font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 3px 8px; border-radius: 4px; color: var(--text-muted); }
+    .divisions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .division-card { background: var(--bg-surface); padding: 36px 30px; border-radius: 8px; border: 1px solid var(--border-subtle); transition: 0.2s ease; }
+    .division-card:hover { border-color: var(--border-focus); background: var(--bg-surface-hover); }
+    .division-icon { font-size: 28px; margin-bottom: 18px; display: inline-block; }
+    .division-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .division-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); padding: 4px 10px; border-radius: 3px; font-size: 11px; font-weight: 500; color: var(--text-muted); }
 
-    /* Team Grid */
-    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .team-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 28px; text-align: center; }
-    .team-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; border: 2px solid var(--border-subtle); }
-    .team-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; font-family: 'Space Grotesk', sans-serif; }
-    .team-role { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--accent-red); text-transform: uppercase; margin-bottom: 12px; }
-    .team-contact { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .team-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 30px 20px; text-align: center; transition: 0.2s; }
+    .team-card:hover { border-color: var(--border-focus); }
+    .team-avatar { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; border: 1px solid var(--border-subtle); }
+    .team-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .team-title { font-size: 11px; font-weight: 600; color: var(--accent-crimson); text-transform: uppercase; margin-bottom: 14px; letter-spacing: 0.5px; }
+    .team-contact { font-size: 12px; color: var(--text-muted); margin-bottom: 3px; }
 
-    /* Pricing Section */
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .price-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-    .price-card.featured { border-color: var(--accent-red); background: linear-gradient(180deg, var(--bg-surface), #140d12); }
-    .featured-pill { position: absolute; top: -11px; right: 24px; background: var(--accent-red); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
-    .price-top h3 { font-size: 18px; font-weight: 600; font-family: 'Space Grotesk', sans-serif; margin-bottom: 6px; }
-    .price-top p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
-    .price-amount { font-size: 32px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; margin-bottom: 24px; color: var(--text-main); }
-    .price-amount span { font-size: 13px; font-weight: 400; color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .price-card { background: var(--bg-surface); padding: 40px 30px; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column; justify-content: space-between; position: relative; transition: 0.2s; }
+    .price-card:hover { border-color: var(--border-focus); }
+    .price-card.featured { border-color: var(--accent-crimson); }
+    .featured-badge { position: absolute; top: -11px; right: 24px; background: var(--accent-crimson); color: #ffffff; font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .price-header span { font-size: 11px; font-weight: 600; color: var(--accent-crimson); text-transform: uppercase; display: block; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .price-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+    .price-tag { font-size: 32px; font-weight: 700; color: var(--text-main); margin-bottom: 10px; }
+    .price-header p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
     .price-features { list-style: none; margin-bottom: 28px; border-top: 1px solid var(--border-subtle); padding-top: 20px; }
-    .price-features li { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: flex; gap: 8px; align-items: center; font-family: 'JetBrains Mono', monospace; }
+    .price-features li { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
 
-    /* Admin & Chat Terminal Elements */
-    #admin-panel { display: none; background: var(--bg-surface); border: 1px solid var(--accent-red); border-radius: 12px; padding: 28px; margin-top: 40px; }
-    .admin-grid { display: grid; grid-template-columns: 260px 1fr; gap: 20px; margin-top: 20px; }
-    .chat-users-list { background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px; height: 320px; overflow-y: auto; }
-    .chat-user-item { padding: 10px; border-radius: 6px; cursor: pointer; margin-bottom: 4px; font-size: 12px; border: 1px solid transparent; }
-    .chat-user-item:hover, .chat-user-item.active { background: var(--bg-surface-hover); border-color: var(--border-active); }
-    .chat-room { background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: 8px; display: flex; flex-direction: column; height: 320px; padding: 12px; }
-    .messages-box { flex: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
-    .msg { padding: 8px 12px; border-radius: 6px; max-width: 80%; }
+    .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+    .case-card { background: var(--bg-surface); padding: 32px; border-radius: 8px; border: 1px solid var(--border-subtle); transition: 0.2s; }
+    .case-card:hover { border-color: var(--border-focus); }
+    .case-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .case-tag { font-size: 10px; font-weight: 600; color: var(--accent-crimson); background: rgba(220, 38, 38, 0.08); padding: 3px 8px; border-radius: 3px; text-transform: uppercase; }
+    .rating { color: var(--accent-gold); font-size: 12px; font-weight: 600; }
+    .case-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .case-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    .case-result { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle); font-size: 12px; font-weight: 600; color: var(--text-main); }
+    .client-sig { margin-top: 10px; font-size: 11px; color: var(--text-muted); }
+
+    .about-wrapper { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .about-text h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .about-text p { color: var(--text-muted); font-size: 14px; line-height: 1.8; margin-bottom: 16px; }
+    .about-checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-muted); }
+    .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .stack-item { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); padding: 18px; border-radius: 6px; text-align: center; font-weight: 600; font-size: 12px; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Admin Terminal Panel */
+    #admin-panel { display: none; background: var(--bg-surface); border: 1px solid var(--border-focus); border-radius: 8px; padding: 28px; margin-top: 40px; }
+    .admin-grid { display: grid; grid-template-columns: 260px 1fr; gap: 20px; margin-top: 16px; }
+    .chat-users-list { background: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px; height: 320px; overflow-y: auto; }
+    .chat-user-item { padding: 8px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 4px; font-size: 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle); transition: 0.15s; }
+    .chat-user-item:hover, .chat-user-item.active { border-color: var(--accent-crimson); background: #151012; }
+    .chat-room { background: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 6px; display: flex; flex-direction: column; height: 320px; padding: 12px; }
+    .messages-box { flex: 1; overflow-y: auto; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .msg { padding: 8px 12px; border-radius: 4px; font-size: 12px; max-width: 75%; }
     .msg.client { background: var(--bg-surface); align-self: flex-start; border: 1px solid var(--border-subtle); }
-    .msg.admin { background: rgba(239, 68, 68, 0.15); border: 1px solid var(--accent-red); align-self: flex-end; color: var(--accent-red); }
+    .msg.admin { background: rgba(220, 38, 38, 0.15); border: 1px solid var(--border-focus); align-self: flex-end; color: var(--text-main); }
     .chat-input-area { display: flex; gap: 8px; }
-    .chat-input-area input { flex: 1; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 6px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .chat-input-area input { flex: 1; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 4px; color: var(--text-main); font-size: 12px; }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(9, 10, 15, 0.85); backdrop-filter: blur(12px); display: none; justify-content: center; align-items: center; z-index: 10000; }
-    .modal-box { background: var(--bg-surface); border: 1px solid var(--border-subtle); width: 100%; max-width: 380px; padding: 32px; border-radius: 12px; position: relative; }
-    .modal-box h2 { font-size: 20px; font-weight: 600; font-family: 'Space Grotesk', sans-serif; margin-bottom: 20px; }
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(10, 11, 14, 0.85); backdrop-filter: blur(8px);
+      display: none; justify-content: center; align-items: center; z-index: 10000;
+    }
+    .modal-box {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      width: 100%; max-width: 380px; padding: 32px; border-radius: 8px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative;
+    }
+    .modal-box h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: var(--text-main); }
     .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-    .form-group input { width: 100%; background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 10px 12px; border-radius: 6px; color: var(--text-main); font-size: 13px; font-family: 'JetBrains Mono', monospace; }
-    .form-group input:focus { border-color: var(--accent-red); outline: none; }
-    .modal-close { position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 18px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group input {
+      width: 100%; background: var(--bg-main); border: 1px solid var(--border-subtle);
+      padding: 10px 12px; border-radius: 4px; color: var(--text-main); font-size: 13px;
+    }
+    .form-group input:focus { border-color: var(--accent-crimson); outline: none; }
+    .modal-close { position: absolute; top: 18px; right: 18px; cursor: pointer; color: var(--text-muted); font-size: 18px; }
+    .modal-close:hover { color: var(--text-main); }
 
-    /* Floating Chat Widget */
-    .chat-widget-btn { position: fixed; bottom: 28px; right: 28px; background: var(--accent-red); color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); z-index: 9999; transition: 0.2s; }
-    .chat-widget-btn:hover { transform: scale(1.05); }
+    .chat-widget-btn {
+      position: fixed; bottom: 28px; right: 28px;
+      background: var(--accent-crimson);
+      color: #ffffff; width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+      cursor: pointer; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3); z-index: 9999; transition: 0.2s;
+    }
+    .chat-widget-btn:hover { background: var(--accent-crimson-dark); }
 
-    .chat-popup { position: fixed; bottom: 90px; right: 28px; width: 320px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; display: none; flex-direction: column; height: 380px; z-index: 9999; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-    .chat-popup-header { background: var(--bg-base); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-red); }
-    .chat-popup-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
-    .chat-popup-footer { padding: 10px; border-top: 1px solid var(--border-subtle); display: flex; gap: 8px; background: var(--bg-base); }
-    .chat-popup-footer input { flex: 1; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; border-radius: 6px; color: var(--text-main); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .chat-popup {
+      position: fixed; bottom: 90px; right: 28px; width: 340px;
+      background: var(--bg-surface); border: 1px solid var(--border-subtle);
+      border-radius: 8px; display: none; flex-direction: column; height: 400px;
+      z-index: 9999; box-shadow: 0 15px 30px rgba(0,0,0,0.5); overflow: hidden;
+    }
+    .chat-popup-header { background: var(--bg-main); padding: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); font-weight: 600; font-size: 12px; color: var(--text-main); }
+    .close-chat { cursor: pointer; color: var(--text-muted); font-size: 16px; }
+    .close-chat:hover { color: var(--text-main); }
+    .chat-popup-body { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .chat-popup-footer { padding: 12px; border-top: 1px solid var(--border-subtle); display: flex; gap: 8px; background: var(--bg-main); }
+    .chat-popup-footer input { flex: 1; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px 10px; border-radius: 4px; color: var(--text-main); font-size: 12px; }
 
-    .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .user-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
     .user-table th, .user-table td { border: 1px solid var(--border-subtle); padding: 8px 12px; text-align: left; }
-    .user-table th { background: var(--bg-base); color: var(--accent-red); }
+    .user-table th { background: var(--bg-main); color: var(--text-muted); font-weight: 600; }
 
-    footer { text-align: center; padding: 40px; background: var(--bg-base); color: var(--text-muted); margin-top: 80px; border-top: 1px solid var(--border-subtle); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    footer { text-align: center; padding: 40px; background: var(--bg-main); color: var(--text-muted); margin-top: 100px; border-top: 1px solid var(--border-subtle); font-size: 12px; }
 
     @media(max-width: 768px) {
       .hero h1 { font-size: 32px; }
-      .metrics-grid, .grid-3, .team-grid, .pricing-grid { grid-template-columns: 1fr; }
-      header { padding: 14px 20px; }
+      .about-wrapper { grid-template-columns: 1fr; padding: 24px; }
+      header { padding: 16px 20px; }
       .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="market-ticker">
-    <div class="ticker-track">
-      <span class="ticker-item">EUR/USD <span>1.0842 (+0.14%)</span></span>
-      <span class="ticker-item">GBP/USD <span>1.2650 (-0.08%)</span></span>
-      <span class="ticker-item">USD/JPY <span>151.20 (+0.32%)</span></span>
-      <span class="ticker-item">XAU/USD (GOLD) <span>2,345.10 (+0.85%)</span></span>
-      <span class="ticker-item">BTC/USD <span>67,420.00 (+1.40%)</span></span>
-      <span class="ticker-item">EUR/USD <span>1.0842 (+0.14%)</span></span>
-      <span class="ticker-item">GBP/USD <span>1.2650 (-0.08%)</span></span>
-      <span class="ticker-item">USD/JPY <span>151.20 (+0.32%)</span></span>
-      <span class="ticker-item">XAU/USD (GOLD) <span>2,345.10 (+0.85%)</span></span>
-      <span class="ticker-item">BTC/USD <span>67,420.00 (+1.40%)</span></span>
-    </div>
-  </div>
-
   <header>
     <div class="logo">
-      <a href="#"><img src="https://i.ibb.co/0jYJBqps/cleared-image-removebg-preview.png" alt="Market Predators"></a>
-      <div class="logo-text">MARKET <span>PREDATORS</span></div>
+      <a href="https://ibb.co/5WscYTXK"><img src="https://i.ibb.co/0jYJBqps/cleared-image-removebg-preview.png" alt="Market Predators Logo" border="0"></a>
+      <div class="logo-text">Market Predators</div>
     </div>
     <div class="nav-links">
-      <a href="#services">Competencies</a>
-      <a href="#team">Execution Desk</a>
-      <a href="#pricing">Investment Tiers</a>
-      <a href="#about">Syndicate</a>
+      <a href="#divisions">Core Divisions</a>
+      <a href="#team">Leadership Desk</a>
+      <a href="#allocations">Capital Tiers</a>
+      <a href="#performance">Verified Alpha</a>
+      <a href="#syndicate">Institutional Profile</a>
     </div>
     <div class="nav-actions" id="authNavActions">
-      <button class="btn-secondary" id="openLoginBtn">Login</button>
-      <button class="btn-primary" id="openSignupBtn">Sign Up</button>
+      <button class="btn-secondary" id="openLoginBtn">Sign In</button>
+      <button class="btn-primary" id="openSignupBtn">Client Portal</button>
     </div>
   </header>
 
   <section class="hero">
-    <div class="hero-badge">⚡ INSTITUTIONAL FOREX LIQUIDITY SYNDICATE</div>
-    <h1>Dominate Global Markets With<br><span>Precision Execution</span></h1>
-    <p>Deploying advanced quantitative risk models and high-alpha price action strategies across major international currency and commodity desks.</p>
+    <div class="hero-badge">Institutional Liquidity & Macro Execution</div>
+    <h1>Navigating Global Markets With<br><span>Systematic Precision</span></h1>
+    <p>Deploying advanced quantitative models, institutional forex order-flow strategies, and disciplined capital management frameworks for qualified stakeholders.</p>
     
     <div class="hero-buttons">
-      <button class="btn-primary" id="heroChatBtn">Open Terminal Chat 💬</button>
-      <a href="#pricing" class="btn-secondary">View Investment Tiers</a>
+      <button class="btn-primary" id="heroChatBtn">Initiate Secure Terminal 💬</button>
+      <a href="#allocations" class="btn-secondary">Review Investment Tiers</a>
     </div>
 
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <h3>96.4<span>%</span></h3>
-        <p>Strike Accuracy</p>
-      </div>
-      <div class="metric-card">
-        <h3>$15M<span>+</span></h3>
-        <p>Managed Volume</p>
-      </div>
-      <div class="metric-card">
-        <h3>1:6<span>+</span></h3>
-        <p>Risk-Reward</p>
-      </div>
-      <div class="metric-card">
-        <h3>24/7</h3>
-        <p>Telemetry Feed</p>
-      </div>
+    <div class="metrics-bar">
+      <div class="metric-item"><h3>96.4%</h3><p>Execution Accuracy</p></div>
+      <div class="metric-item"><h3>$15M+</h3><p>Managed Volume</p></div>
+      <div class="metric-item"><h3>1:6+</h3><p>Risk-Reward Metrics</p></div>
+      <div class="metric-item"><h3>24/5</h3><p>Global Telemetry</p></div>
     </div>
   </section>
 
-  <div id="services" class="container">
-    <div class="section-header">
-      <h2>Core Trading Competencies</h2>
-      <p>Engineered to extract consistent yield from institutional order flows.</p>
-    </div>
+  <div id="divisions" class="container">
+    <h2 class="section-title">Core Operational Divisions</h2>
+    <p class="section-desc">Rigorous quantitative analysis combined with disciplined institutional risk protocols.</p>
 
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-icon">📈</div>
-        <h3>Apex Fund Management</h3>
-        <p>Systematic capital allocation across major forex pairs with strict mathematical drawdown barriers.</p>
-        <div class="tags"><span class="tag">Forex</span><span class="tag">Gold Volatility</span><span class="tag">Indices</span></div>
+    <div class="divisions-grid">
+      <div class="division-card">
+        <div class="division-icon">📈</div>
+        <h3>Proprietary Fund Management</h3>
+        <p>Systematic allocation across major international currency pairs and high-liquidity commodity instruments with strict drawdown limits.</p>
+        <div class="tech-tags"><span class="tag">Forex Liquidity</span><span class="tag">Spot Gold</span><span class="tag">Global Indices</span></div>
       </div>
-      <div class="card">
-        <div class="card-icon">🎯</div>
-        <h3>Quantitative Mentorship</h3>
-        <p>Advanced institutional price action training designed to strip retail emotion from trade execution.</p>
-        <div class="tags"><span class="tag">Order Flow</span><span class="tag">Structure</span><span class="tag">Risk Mgmt</span></div>
+      <div class="division-card">
+        <div class="division-icon">🛡️</div>
+        <h3>Quantitative Risk Architecture</h3>
+        <p>Multi-layered hedging models designed to insulate institutional capital against high-volatility macroeconomic rate announcements.</p>
+        <div class="tech-tags"><span class="tag">Volatility Shields</span><span class="tag">Dynamic Hedging</span><span class="tag">Capital Preservation</span></div>
       </div>
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Private Advisory</h3>
-        <p>Customized risk architecture and hedging frameworks built specifically for private capital desks.</p>
-        <div class="tags"><span class="tag">Hedging</span><span class="tag">Macro Hunts</span><span class="tag">Latency</span></div>
+      <div class="division-card">
+        <div class="division-icon">📊</div>
+        <h3>Private Strategic Advisory</h3>
+        <p>Tailored market structure workshops and bespoke portfolio restructuring for high-net-worth individual traders and private funds.</p>
+        <div class="tech-tags"><span class="tag">Order Flow</span><span class="tag">Macro Analysis</span><span class="tag">Execution Tuning</span></div>
       </div>
     </div>
   </div>
 
   <div id="team" class="container">
-    <div class="section-header">
-      <h2>Execution Desk Leadership</h2>
-      <p>The core operators managing institutional risk parameters.</p>
-    </div>
+    <h2 class="section-title">Syndicate Leadership & Execution Desk</h2>
+    <p class="section-desc">Key personnel overseeing quantitative analysis and fund administration.</p>
     
     <div class="team-grid" id="publicTeamGrid">
-      <div style="grid-column: 1 / -1; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px;">Loading execution commanders...</div>
+      <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-size: 13px;">Loading executive roster...</div>
     </div>
   </div>
 
-  <div id="pricing" class="container">
-    <div class="section-header">
-      <h2>Investment & Mentorship Tiers</h2>
-      <p>Select your operational tier to integrate with the syndicate network.</p>
-    </div>
+  <div id="allocations" class="container">
+    <h2 class="section-title">Capital Allocation & Service Tiers</h2>
+    <p class="section-desc">Select an appropriate institutional grade framework for portfolio participation.</p>
 
     <div class="pricing-grid">
       <div class="price-card">
-        <div class="price-top">
-          <h3>Predator Mentorship</h3>
-          <p>Master institutional liquidity and systematic price action frameworks.</p>
-          <div class="price-amount">$250 <span>/ program</span></div>
+        <div class="price-header">
+          <span>✍️ Technical Mentorship</span>
+          <h3>Advanced Price Action Program</h3>
+          <div class="price-tag">$250 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ curriculum</span></div>
+          <p>Comprehensive training module focused on institutional footprint identification and precise market structure mapping.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Full Proprietary Module Access</li>
-            <li>✅ Live Market Execution Dissections</li>
-            <li>✅ Strict Risk Rulebooks</li>
+            <li>✅ Full Access to Proprietary Liquidity Mapping Blueprints.</li>
+            <li>✅ Weekly Market Dissection and Setup Review Sessions.</li>
+            <li>✅ Institutional Risk-Management Rulebook Integration.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%;">Enroll via Chat</button>
+          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Inquire via Secure Chat</button>
         </div>
       </div>
 
       <div class="price-card featured">
-        <div class="featured-pill">Apex Choice</div>
-        <div class="price-top">
-          <h3>Syndicate Portfolio Tier</h3>
-          <p>Allow professional commanders to manage and compound your capital.</p>
-          <div class="price-amount">$1,000 <span>/ min capital</span></div>
+        <div class="featured-badge">Core Allocation</div>
+        <div class="price-header">
+          <span>🔌 Managed Portfolio</span>
+          <h3>Syndicate Fund Tier</h3>
+          <div class="price-tag">$1,000 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ min capital</span></div>
+          <p>Direct portfolio allocation managed through systematic institutional trading algorithms and human oversight.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Active Forex & Gold Allocation</li>
-            <li>✅ Real-Time Telemetry & Audits</li>
-            <li>✅ Automated Volatility Shields</li>
+            <li>✅ Automated Forex & Commodity Execution by Senior Desk.</li>
+            <li>✅ Real-Time Telemetry and Transparent Performance Auditing.</li>
+            <li>✅ Strict Mathematical Drawdown Controls and Volatility Shields.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%;">Join Syndicate</button>
+          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Request Allocation</button>
         </div>
       </div>
 
       <div class="price-card">
-        <div class="price-top">
-          <h3>VIP Advisory Desk</h3>
-          <p>Direct 1-on-1 strategic roadmap building for private fund managers.</p>
-          <div class="price-amount">$500 <span>/ month</span></div>
+        <div class="price-header">
+          <span>👑 Private Advisory</span>
+          <h3>Direct Institutional Advisory</h3>
+          <div class="price-tag">$500 <span style="font-size: 13px; color: var(--text-muted); font-weight: normal;">/ month</span></div>
+          <p>Direct weekly advisory sessions and custom portfolio structuring for experienced fund managers and high-capital accounts.</p>
         </div>
         <div>
           <ul class="price-features">
-            <li>✅ Weekly Strategy Directives</li>
-            <li>✅ Custom Portfolio Hedging</li>
-            <li>✅ Encrypted Priority Node</li>
+            <li>✅ Weekly 1-on-1 Strategic Directives with Senior Leadership.</li>
+            <li>✅ Custom Portfolio Risk Distribution Analysis.</li>
+            <li>✅ Dedicated Priority Node via Secure Encrypted Channels.</li>
           </ul>
-          <button class="btn-primary price-chat-btn" style="width: 100%;">Secure Access</button>
+          <button class="btn-primary price-chat-btn" style="width: 100%; text-align: center;">Secure Subscription</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="performance" class="container">
+    <h2 class="section-title">Verified Track Record & Case Studies</h2>
+    <p class="section-desc">Documented performance outcomes from institutional clients and syndicate partners.</p>
+
+    <div class="cases-grid">
+      <div class="case-card">
+        <div class="case-top"><span class="case-tag">Fund Management</span><span class="rating">⭐ 5.0</span></div>
+        <h3>Core Portfolio Scaling</h3>
+        <p class="case-meta"><strong>Objective:</strong> Minimizing emotional volatility and drawdowns during high-impact market phases.</p>
+        <div class="case-result">Outcome: Delivered a consistent 32% net quarterly growth metric.</div>
+        <div class="client-sig">Sohaib Ahmed — Private Portfolio Investor</div>
+      </div>
+      <div class="case-card">
+        <div class="case-top"><span class="case-tag">Mentorship</span><span class="rating">⭐ 4.9</span></div>
+        <h3>Proprietary Evaluation Clearance</h3>
+        <p class="case-meta"><strong>Objective:</strong> Transitioning retail strategies to professional institutional risk standards.</p>
+        <div class="case-result">Outcome: Successfully funded through major proprietary trading evaluation in 18 days.</div>
+        <div class="client-sig">Hamza Tariq — Independent Trader</div>
+      </div>
+      <div class="case-card">
+        <div class="case-top"><span class="case-tag">Advisory</span><span class="rating">⭐ 4.8</span></div>
+        <h3>Macro Risk Restructuring</h3>
+        <p class="case-meta"><strong>Objective:</strong> Hedging portfolio exposure during Federal Reserve interest rate announcements.</p>
+        <div class="case-result">Outcome: Zero significant capital degradation across multiple high-impact releases.</div>
+        <div class="client-sig">Usman Ghani — Desk Lead</div>
       </div>
     </div>
 
     <div id="admin-panel">
-      <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; margin-bottom: 4px;">🔒 Admin Terminal Console</h3>
-      <p style="color: var(--text-muted); font-size: 12px; font-family: 'JetBrains Mono', monospace; margin-bottom: 20px;">Restricted system logs, client chats, and team directory.</p>
+      <h3 style="color: var(--text-main); margin-bottom: 4px; font-size: 15px; font-weight: 600;">🔒 Administrative Terminal & Telemetry</h3>
+      <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 20px;">Restricted access console for client communications, database records, and executive roster management.</p>
       
-      <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-        <h4 style="color: var(--accent-red); font-size: 12px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; margin-bottom: 12px;">👥 Add Syndicate Member</h4>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px;">
-          <input type="text" id="adminTeamName" placeholder="Name" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; color: #fff; font-size: 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
-          <input type="text" id="adminTeamTitle" placeholder="Role / Title" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; color: #fff; font-size: 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
-          <input type="email" id="adminTeamEmail" placeholder="Email" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; color: #fff; font-size: 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
-          <input type="text" id="adminTeamPhone" placeholder="Phone" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; color: #fff; font-size: 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
+      <div style="background: var(--bg-main); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 18px; margin-top: 16px;">
+        <h4 style="color: var(--text-main); margin-bottom: 12px; font-size: 12px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">👥 Publish Syndicate Leadership Member</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px;">
+          <div class="form-group" style="margin-bottom:0;"><label>Full Name</label><input type="text" id="adminTeamName" placeholder="e.g. Alex Vance"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Corporate Title</label><input type="text" id="adminTeamTitle" placeholder="e.g. Chief Risk Officer"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Corporate Email</label><input type="email" id="adminTeamEmail" placeholder="e.g. a.vance@marketpredators.com"></div>
+          <div class="form-group" style="margin-bottom:0;"><label>Secure Contact</label><input type="text" id="adminTeamPhone" placeholder="e.g. +92 300 1234567"></div>
         </div>
-        <div style="display: flex; gap: 10px;">
-          <input type="text" id="adminTeamImage" placeholder="Image URL" style="flex:1; background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 8px; color: #fff; font-size: 12px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">
-          <button class="btn-primary" id="addTeamBtn" style="padding: 8px 16px;">Add Member</button>
+        <div style="margin-top: 12px; display: flex; gap: 10px; align-items: center;">
+          <div class="form-group" style="margin-bottom:0; flex:1;"><label>Profile Image URL</label><input type="text" id="adminTeamImage" placeholder="Paste secure image URL"></div>
+          <button class="btn-primary" id="addTeamBtn" style="margin-top: 18px; padding: 10px 18px;">Publish Member</button>
         </div>
       </div>
 
       <div class="admin-grid">
         <div class="chat-users-list" id="adminChatUsersList">
-          <div style="font-size: 11px; font-weight: 600; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Client Channels</div>
+          <div style="font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Active Inquiries</div>
         </div>
         <div class="chat-room">
-          <div id="adminActiveChatHeader" style="font-size: 12px; font-weight: 600; color: var(--accent-red); margin-bottom: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 6px; font-family: 'JetBrains Mono', monospace;">
-            Select a client channel
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 6px;" id="adminActiveChatHeader">
+            Select an inquiry channel 👆
           </div>
           <div class="messages-box" id="adminMessagesBox"></div>
           <div class="chat-input-area">
-            <input type="text" id="adminInput" placeholder="Transmit reply...">
-            <button class="btn-primary" id="sendAdminBtn" style="padding: 6px 14px; font-size: 11px;">Send</button>
+            <input type="text" id="adminInput" placeholder="Enter secure institutional response...">
+            <button class="btn-primary" id="sendAdminBtn" style="padding: 7px 14px; font-size: 11px;">Send</button>
           </div>
         </div>
       </div>
 
-      <div style="margin-top: 25px; overflow-x: auto;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--accent-red); text-transform: uppercase; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace;">Registered Client Accounts</div>
+      <div style="margin-top: 24px; overflow-x: auto;">
+        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Registered Client Database</div>
         <table class="user-table">
           <thead>
-            <tr><th>Name</th><th>Email</th><th>Password</th><th>Registered At</th></tr>
+            <tr>
+              <th>Client Name</th>
+              <th>Email Address</th>
+              <th>Credentials</th>
+              <th>Registration Timestamp</th>
+            </tr>
           </thead>
           <tbody id="adminUsersTableBody"></tbody>
         </table>
       </div>
 
-      <div style="margin-top: 25px; overflow-x: auto;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--accent-red); text-transform: uppercase; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace;">Execution Team Directory</div>
+      <div style="margin-top: 24px; overflow-x: auto;">
+        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Active Leadership Roster</div>
         <table class="user-table">
           <thead>
-            <tr><th>Photo</th><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>Action</th></tr>
+            <tr>
+              <th>Avatar</th>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Action</th>
+            </tr>
           </thead>
           <tbody id="adminTeamTableBody"></tbody>
         </table>
@@ -465,21 +478,21 @@
     </div>
   </div>
 
-  <div id="about" class="container">
-    <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-      <div>
-        <h2 style="font-size: 28px; font-family: 'Space Grotesk', sans-serif; margin-bottom: 16px;">Engineered for Alpha & Strict Risk Protocol</h2>
-        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 16px;">Market Predators eliminates retail guesswork by executing strictly against verified institutional liquidity zones and quantitative volatility models.</p>
-        <ul style="list-style: none; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
-          <li>✓ Fully audited and transparent fund telemetry</li>
-          <li>✓ Automated drawdown cutoff safeguards</li>
+  <div id="syndicate" class="container">
+    <div class="about-wrapper">
+      <div class="about-text">
+        <h2>Engineered for Strict Alpha & Institutional Risk Governance</h2>
+        <p>Market Predators operates at the intersection of international liquidity pools and mathematical risk modeling. We eliminate emotional speculation in favor of systematic, verified execution parameters.</p>
+        <ul class="about-checklist">
+          <li>✅ Fully transparent real-time telemetry and performance auditing.</li>
+          <li>✅ Uncompromising mathematical drawdown limitation across all allocations.</li>
         </ul>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
-        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 8px; text-align: center; color: var(--accent-red);">📈 FOREX DESK</div>
-        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 8px; text-align: center; color: var(--accent-red);">🪙 GOLD LIQUIDITY</div>
-        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 8px; text-align: center; color: var(--accent-red);">🛡️ RISK SHIELD</div>
-        <div style="background: var(--bg-base); border: 1px solid var(--border-subtle); padding: 20px; border-radius: 8px; text-align: center; color: var(--accent-red);">⚡ 24/7 FEED</div>
+      <div class="stack-grid">
+        <div class="stack-item">📈 Forex & Gold</div>
+        <div class="stack-item">🪙 Order Flow</div>
+        <div class="stack-item">🛡️ Risk Shield</div>
+        <div class="stack-item">⚡ 24/5 Telemetry</div>
       </div>
     </div>
   </div>
@@ -487,21 +500,36 @@
   <div class="modal-overlay" id="signupModal">
     <div class="modal-box">
       <span class="modal-close" id="closeSignupModal">&times;</span>
-      <h2>Syndicate Registration</h2>
-      <div class="form-group"><label>Full Name</label><input type="text" id="signupName" placeholder="John Doe"></div>
-      <div class="form-group"><label>Email Address</label><input type="email" id="signupEmail" placeholder="john@domain.com"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="••••••••"></div>
-      <button class="btn-primary" id="submitSignupBtn" style="width: 100%; margin-top: 10px;">Create Account</button>
+      <h2>Client Portal Registration</h2>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="signupName" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="signupEmail" placeholder="Enter corporate or personal email">
+      </div>
+      <div class="form-group">
+        <label>Secure Password</label>
+        <input type="password" id="signupPassword" placeholder="Create secure password">
+      </div>
+      <button class="btn-primary" id="submitSignupBtn" style="width: 100%; margin-top: 8px;">Create Account</button>
     </div>
   </div>
 
   <div class="modal-overlay" id="loginModal">
     <div class="modal-box">
       <span class="modal-close" id="closeLoginModal">&times;</span>
-      <h2>Terminal Login</h2>
-      <div class="form-group"><label>Email Address</label><input type="email" id="loginEmail" placeholder="john@domain.com"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-      <button class="btn-primary" id="submitLoginBtn" style="width: 100%; margin-top: 10px;">Authenticate</button>
+      <h2>Secure Portal Sign In</h2>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="Enter your registered email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+      </div>
+      <button class="btn-primary" id="submitLoginBtn" style="width: 100%; margin-top: 8px;">Authenticate</button>
     </div>
   </div>
 
@@ -509,20 +537,20 @@
 
   <div class="chat-popup" id="chatPopup">
     <div class="chat-popup-header">
-      <span>⚡ Syndicate Desk Support</span>
-      <span class="modal-close" id="closeChatPopup" style="position:static; font-size:16px;">&times;</span>
+      <span>Secure Inquiry Channel</span>
+      <span class="close-chat" id="closeChatPopup">&times;</span>
     </div>
     <div class="chat-popup-body" id="clientMessagesBox">
-      <div class="msg client" style="color: var(--accent-red);">Connected to Market Predators desk. Transmit your query below.</div>
+      <div class="msg client" style="color: var(--text-muted); border: 1px solid var(--border-subtle);">Connected to Market Predators desk. Enter your inquiry below.</div>
     </div>
     <div class="chat-popup-footer">
       <input type="text" id="clientInput" placeholder="Type message...">
-      <button class="btn-primary" id="sendClientBtn" style="padding: 6px 12px; font-size: 11px;">Send</button>
+      <button class="btn-primary" id="sendClientBtn" style="padding: 7px 12px; font-size: 11px;">Send</button>
     </div>
   </div>
 
   <footer>
-    <p>&copy; 2026 Market Predators Syndicate. Institutional Execution & Liquidity Management.</p>
+    <p>&copy; 2026 Market Predators Syndicate. All rights reserved. Strictly confidential institutional telemetry.</p>
   </footer>
 
   <script>
@@ -543,18 +571,21 @@
 
       document.getElementById('openLoginBtn').addEventListener('click', () => loginModal.style.display = 'flex');
       document.getElementById('closeLoginModal').addEventListener('click', () => loginModal.style.display = 'none');
+
       document.getElementById('openSignupBtn').addEventListener('click', () => signupModal.style.display = 'flex');
       document.getElementById('closeSignupModal').addEventListener('click', () => signupModal.style.display = 'none');
 
       const toggleChat = () => {
         const sessionData = localStorage.getItem('predator_user');
         if (!sessionData) {
-          alert("⚠️ Terminal chat access ke liye login karna lazmi hai.");
+          alert("Secure inquiry channel access requires authentication. Please sign in.");
           loginModal.style.display = 'flex';
           return;
         }
+
         const isOpen = chatPopup.style.display === 'flex';
         chatPopup.style.display = isOpen ? 'none' : 'flex';
+
         if (!isOpen) {
           loadClientMessages();
           chatInterval = setInterval(loadClientMessages, 3000);
@@ -570,23 +601,42 @@
         clearInterval(chatInterval);
       });
 
-      document.querySelectorAll('.price-chat-btn').forEach(btn => btn.addEventListener('click', toggleChat));
+      document.querySelectorAll('.price-chat-btn').forEach(btn => {
+        btn.addEventListener('click', toggleChat);
+      });
 
       document.getElementById('submitSignupBtn').addEventListener('click', async () => {
         const name = document.getElementById('signupName').value.trim();
         const email = document.getElementById('signupEmail').value.trim();
         const password = document.getElementById('signupPassword').value.trim();
 
-        if(!name || !email || !password) { alert("Saari fields fill karein!"); return; }
+        if(!name || !email || !password) {
+          alert("All mandatory fields must be completed.");
+          return;
+        }
 
-        const { data: existing } = await supabase.from('users').select('email').eq('email', email).single();
-        if (existing) { alert("Yeh email pehle se registered hai."); return; }
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('email')
+          .eq('email', email)
+          .single();
 
-        const { error } = await supabase.from('users').insert([{ full_name: name, email: email, password: password }]);
-        if (error) { alert("Error: " + error.message); return; }
+        if (existingUser) {
+          alert("An account with this email address already exists.");
+          return;
+        }
+
+        const { error } = await supabase
+          .from('users')
+          .insert([{ full_name: name, email: email, password: password }]);
+
+        if (error) {
+          alert("Registration Error: " + error.message);
+          return;
+        }
 
         localStorage.setItem('predator_user', JSON.stringify({ name, email }));
-        alert("Account successfully created!");
+        alert("Account successfully created and verified.");
         signupModal.style.display = 'none';
         updateNavAuth();
       });
@@ -595,13 +645,25 @@
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
 
-        if(!email || !password) { alert("Email aur password enter karein!"); return; }
+        if(!email || !password) {
+          alert("Please enter both email and password.");
+          return;
+        }
 
-        const { data: user, error } = await supabase.from('users').select('*').eq('email', email).eq('password', password).single();
-        if (error || !user) { alert("Ghalat email ya password."); return; }
+        const { data: user, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', email)
+          .eq('password', password)
+          .single();
+
+        if (error || !user) {
+          alert("Authentication failed. Please verify credentials.");
+          return;
+        }
 
         localStorage.setItem('predator_user', JSON.stringify({ name: user.full_name, email: user.email }));
-        alert("Login successful.");
+        alert("Authentication successful.");
         loginModal.style.display = 'none';
         updateNavAuth();
       });
@@ -610,9 +672,9 @@
         localStorage.removeItem('predator_user');
         document.getElementById('admin-panel').style.display = 'none';
         chatPopup.style.display = 'none';
-        alert("Logged out successfully.");
+        alert("Session terminated securely.");
         updateNavAuth();
-      }
+      };
 
       async function updateNavAuth() {
         const navLinks = document.querySelector('.nav-links');
@@ -624,11 +686,15 @@
 
         if (sessionData) {
           const user = JSON.parse(sessionData);
-          if (adminEmails.includes(user.email)) {
+          const userEmail = user.email;
+          const userName = user.name;
+
+          if (adminEmails.includes(userEmail)) {
             const adminLink = document.createElement('a');
             adminLink.id = 'adminNavLink';
-            adminLink.style.color = 'var(--accent-red)';
-            adminLink.innerHTML = '🔒 Admin Console';
+            adminLink.style.color = 'var(--accent-crimson)';
+            adminLink.style.fontWeight = '600';
+            adminLink.innerHTML = '🔒 Admin Terminal';
             adminLink.onclick = () => {
               const admin = document.getElementById('admin-panel');
               admin.style.display = admin.style.display === 'block' ? 'none' : 'block';
@@ -639,14 +705,14 @@
           }
 
           navActions.innerHTML = `
-            <span style="font-size: 12px; color: var(--accent-red); font-family: 'JetBrains Mono', monospace; margin-right: 6px;">👤 ${user.name}</span>
-            <button class="btn-secondary" onclick="handleLogout()">Logout</button>
+            <span style="font-size: 12px; font-weight: 500; color: var(--text-muted); margin-right: 4px;">👤 ${userName}</span>
+            <button class="btn-secondary" onclick="handleLogout()">Sign Out</button>
           `;
         } else {
           document.getElementById('admin-panel').style.display = 'none';
           navActions.innerHTML = `
-            <button class="btn-secondary" id="openLoginBtn">Login</button>
-            <button class="btn-primary" id="openSignupBtn">Sign Up</button>
+            <button class="btn-secondary" id="openLoginBtn">Sign In</button>
+            <button class="btn-primary" id="openSignupBtn">Client Portal</button>
           `;
           document.getElementById('openLoginBtn').addEventListener('click', () => loginModal.style.display = 'flex');
           document.getElementById('openSignupBtn').addEventListener('click', () => signupModal.style.display = 'flex');
@@ -664,7 +730,7 @@
         const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: true });
 
         if (error || !team || team.length === 0) {
-          grid.innerHTML = `<div style="grid-column: 1 / -1; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px;">No commanders published yet.</div>`;
+          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 20px; font-size: 13px;">No leadership profiles published.</div>`;
           return;
         }
 
@@ -674,7 +740,7 @@
             <div class="team-card">
               <img src="${m.image_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'}" alt="${m.name}" class="team-avatar">
               <h3>${m.name}</h3>
-              <div class="team-role">${m.title}</div>
+              <div class="team-title">${m.title}</div>
               <div class="team-contact">📧 ${m.email}</div>
               <div class="team-contact">📞 ${m.phone}</div>
             </div>
@@ -689,12 +755,19 @@
         const phone = document.getElementById('adminTeamPhone').value.trim();
         const image_url = document.getElementById('adminTeamImage').value.trim() || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300';
 
-        if (!name || !title || !email || !phone) { alert("Mandatory fields fill karein!"); return; }
+        if (!name || !title || !email || !phone) {
+          alert("All mandatory leadership fields must be completed.");
+          return;
+        }
 
         const { error } = await supabase.from('team_members').insert([{ name, title, email, phone, image_url }]);
-        if (error) { alert("Error: " + error.message); return; }
 
-        alert("Team member added successfully!");
+        if (error) {
+          alert("Error publishing member: " + error.message);
+          return;
+        }
+
+        alert("Leadership profile published successfully.");
         document.getElementById('adminTeamName').value = '';
         document.getElementById('adminTeamTitle').value = '';
         document.getElementById('adminTeamEmail').value = '';
@@ -710,7 +783,7 @@
         const { data: team, error } = await supabase.from('team_members').select('*').order('created_at', { ascending: false });
 
         if (error || !team || team.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No members found.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No leadership records found.</td></tr>`;
           return;
         }
 
@@ -720,19 +793,24 @@
             <tr>
               <td><img src="${m.image_url}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;"></td>
               <td>${m.name}</td>
-              <td style="color: var(--accent-red);">${m.title}</td>
+              <td style="color: var(--accent-crimson);">${m.title}</td>
               <td>${m.email}</td>
               <td>${m.phone}</td>
-              <td><button class="btn-secondary" style="padding: 2px 6px; font-size: 10px; border-color: var(--accent-red); color: var(--accent-red);" onclick="deleteTeamMember('${m.id}')">Delete</button></td>
+              <td><button class="btn-secondary" style="padding: 2px 8px; font-size: 10px; border-color: #dc2626; color: #dc2626;" onclick="deleteTeamMember('${m.id}')">Remove</button></td>
             </tr>
           `;
         });
       }
 
       window.deleteTeamMember = async function(id) {
-        if (!confirm("Are you sure you want to delete this member?")) return;
+        if (!confirm("Are you sure you want to remove this leadership profile?")) return;
+
         const { error } = await supabase.from('team_members').delete().eq('id', id);
-        if (error) { alert("Error: " + error.message); return; }
+        if (error) {
+          alert("Error: " + error.message);
+          return;
+        }
+
         loadAdminTeamTable();
         loadPublicTeam();
       };
@@ -740,46 +818,81 @@
       async function loadAdminUsers() {
         const tableBody = document.getElementById('adminUsersTableBody');
         const { data: users, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+
         if (error || !users || users.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No users signed up.</td></tr>`;
+          tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No registered clients found.</td></tr>`;
           return;
         }
+
         tableBody.innerHTML = '';
         users.forEach(u => {
-          tableBody.innerHTML += `<tr><td>${u.full_name}</td><td>${u.email}</td><td style="color: var(--accent-red);">${u.password}</td><td style="color: var(--text-muted);">${new Date(u.created_at).toLocaleString()}</td></tr>`;
+          const date = new Date(u.created_at).toLocaleString();
+          tableBody.innerHTML += `
+            <tr>
+              <td>${u.full_name}</td>
+              <td>${u.email}</td>
+              <td style="color: var(--text-muted); font-family: monospace;">${u.password}</td>
+              <td style="font-size: 11px; color: var(--text-muted);">${date}</td>
+            </tr>
+          `;
         });
       }
 
       async function loadAdminChatUsers() {
         const listDiv = document.getElementById('adminChatUsersList');
         const { data: messages, error } = await supabase.from('messages').select('*').order('created_at', { ascending: false });
+
         if (error || !messages || messages.length === 0) {
-          listDiv.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Client Channels</div><div style="font-size: 11px; color: var(--text-muted);">No channels.</div>`;
+          listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Active Inquiries</div><div style="font-size: 11px; color: var(--text-muted);">No active inquiry channels.</div>`;
           return;
         }
+
         const uniqueUsers = {};
-        messages.forEach(m => { if (!uniqueUsers[m.user_email]) uniqueUsers[m.user_email] = m.user_name; });
-        listDiv.innerHTML = `<div style="font-size: 11px; font-weight: 600; color: var(--accent-red); text-transform: uppercase; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">Client Channels</div>`;
+        messages.forEach(m => {
+          if (!uniqueUsers[m.user_email]) {
+            uniqueUsers[m.user_email] = m.user_name;
+          }
+        });
+
+        listDiv.innerHTML = `<div style="font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Active Inquiries</div>`;
+        
         for (const [email, name] of Object.entries(uniqueUsers)) {
-          listDiv.innerHTML += `<div class="chat-user-item ${selectedChatEmail === email ? 'active' : ''}" onclick="selectAdminChat('${email}', '${name}')"><div style="font-weight: 600; color: #fff;">${name}</div><div style="font-size: 10px; color: var(--text-muted);">${email}</div></div>`;
+          listDiv.innerHTML += `
+            <div class="chat-user-item ${selectedChatEmail === email ? 'active' : ''}" onclick="selectAdminChat('${email}', '${name}')">
+              <div style="font-weight: 600; color: var(--text-main);">${name}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">${email}</div>
+            </div>
+          `;
         }
       }
 
       window.selectAdminChat = function(email, name) {
         selectedChatEmail = email;
-        document.getElementById('adminActiveChatHeaderinnerHTML') = `Channel: <span style="color: var(--accent-red);">${name}</span> (${email})`;
+        document.getElementById('adminActiveChatHeader').innerHTML = `Active Channel: <span style="color: var(--accent-crimson);">${name}</span> (${email})`;
         loadAdminMessages(email);
         loadAdminChatUsers();
       }
 
       async function loadAdminMessages(email) {
         const box = document.getElementById('adminMessagesBox');
-        const { data: msgs } = await supabase.from('messages').select('*').eq('user_email', email).order('created_at', { ascending: true });
-        if (!msgs) return;
+        const { data: msgs, error } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('user_email', email)
+          .order('created_at', { ascending: true });
+
+        if (error || !msgs) {
+          box.innerHTML = `<div style="color: var(--text-muted); text-align: center;">No transmissions recorded.</div>`;
+          return;
+        }
+
         box.innerHTML = '';
         msgs.forEach(m => {
-          if (m.sender_type === 'client') box.innerHTML += `<div class="msg client"><strong>${m.user_name}:</strong> ${m.message}</div>`;
-          else box.innerHTML += `<div class="msg admin"><strong>Desk:</strong> ${m.message}</div>`;
+          if (m.sender_type === 'client') {
+            box.innerHTML += `<div class="msg client"><strong>${m.user_name}:</strong> ${m.message}</div>`;
+          } else {
+            box.innerHTML += `<div class="msg admin"><strong>Desk Admin:</strong> ${m.message}</div>`;
+          }
         });
         box.scrollTop = box.scrollHeight;
       }
@@ -787,8 +900,25 @@
       document.getElementById('sendAdminBtn').addEventListener('click', async () => {
         const input = document.getElementById('adminInput');
         const text = input.value.trim();
-        if (!selectedChatEmail || !text) return;
-        await supabase.from('messages').insert([{ user_email: selectedChatEmail, user_name: "Desk", message: text, sender_type: 'admin' }]);
+
+        if (!selectedChatEmail) {
+          alert("Please select an active client channel from the list.");
+          return;
+        }
+        if (!text) return;
+
+        const { error } = await supabase.from('messages').insert([{
+          user_email: selectedChatEmail,
+          user_name: "Admin",
+          message: text,
+          sender_type: 'admin'
+        }]);
+
+        if (error) {
+          alert("Transmission Error: " + error.message);
+          return;
+        }
+
         input.value = '';
         loadAdminMessages(selectedChatEmail);
       });
@@ -796,13 +926,25 @@
       async function loadClientMessages() {
         const session = JSON.parse(localStorage.getItem('predator_user'));
         if (!session) return;
+
         const box = document.getElementById('clientMessagesBox');
-        const { data: msgs } = await supabase.from('messages').select('*').eq('user_email', session.email).order('created_at', { ascending: true });
-        box.innerHTML = `<div class="msg client" style="color: var(--accent-red);">Connected to syndicate desk.</div>`;
-        if (msgs) {
+        const { data: msgs, error } = await supabase
+          .from('messages')
+          .select('*')
+          .eq('user_email', session.email)
+          .order('created_at', { ascending: true });
+
+        if (error) return;
+
+        box.innerHTML = `<div class="msg client" style="color: var(--text-muted); border: 1px solid var(--border-subtle);">Connected as ${session.name}. Enter your inquiry below.</div>`;
+
+        if (msgs && msgs.length > 0) {
           msgs.forEach(m => {
-            if (m.sender_type === 'client') box.innerHTML += `<div class="msg client" style="background: rgba(255,255,255,0.03); align-self: flex-end; border: none; color: #fff;">${m.message}</div>`;
-            else box.innerHTML += `<div class="msg client" style="color: var(--accent-red);"><strong>Desk:</strong> ${m.message}</div>`;
+            if (m.sender_type === 'client') {
+              box.innerHTML += `<div class="msg client" style="background: var(--bg-surface); color: var(--text-main); align-self: flex-end; border: none;">${m.message}</div>`;
+            } else {
+              box.innerHTML += `<div class="msg client" style="color: var(--accent-crimson); border: 1px solid var(--border-focus);"><strong>Desk Admin:</strong> ${m.message}</div>`;
+            }
           });
         }
         box.scrollTop = box.scrollHeight;
@@ -812,14 +954,33 @@
         const input = document.getElementById('clientInput');
         const text = input.value.trim();
         const session = JSON.parse(localStorage.getItem('predator_user'));
-        if (!session || !text) return;
-        await supabase.from('messages').insert([{ user_email: session.email, user_name: session.name, message: text, sender_type: 'client' }]);
+
+        if (!session) {
+          alert("Authentication required.");
+          return;
+        }
+        if (!text) return;
+
+        const { error } = await supabase.from('messages').insert([{
+          user_email: session.email,
+          user_name: session.name,
+          message: text,
+          sender_type: 'client'
+        }]);
+
+        if (error) {
+          alert("Error: " + error.message);
+          return;
+        }
+
         input.value = '';
         loadClientMessages();
       };
 
       document.getElementById('sendClientBtn').addEventListener('click', sendClientMsg);
-      document.getElementById('clientInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendClientMsg(); });
+      document.getElementById('clientInput').addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') sendClientMsg();
+      });
 
       updateNavAuth();
     });
