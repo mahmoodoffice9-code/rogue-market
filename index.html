@@ -270,7 +270,7 @@
 
   <header>
     <div class="logo">
-      <img src="https://i.ibb.co/Y7cq9DTt/logo.png" alt="Rogue Markets Logo">
+      <a href="https://ibb.co/5WscYTXK"><img src="https://i.ibb.co/0jYJBqps/cleared-image-removebg-preview.png" alt="cleared-image-removebg-preview" border="0"></a>
       <div class="logo-text">ROGUE MARKETS</div>
     </div>
     <div class="nav-links">
@@ -560,7 +560,7 @@
       <div class="msg client" style="background: rgba(0,240,255,0.08); color: var(--accent-cyan); border: 1px solid rgba(0,240,255,0.3);">Welcome to Rogue Markets! Type your message below to chat with our fund manager. 📈</div>
     </div>
     <div class="chat-popup-footer">
-      <input type="text" id="clientInput" placeholder="Type your message..." autocomplete="off">
+      <input type="text" id="clientInput" placeholder="Type your message...">
       <button class="btn-primary" id="sendClientBtn" style="padding: 7px 10px; font-size: 11px;">Send</button>
     </div>
   </div>
@@ -578,7 +578,6 @@
 
       let selectedChatEmail = null;
       let chatInterval = null;
-      let adminPollInterval = null;
 
       loadPublicTeam();
 
@@ -605,7 +604,6 @@
 
         if (!isOpen) {
           loadClientMessages();
-          if (chatInterval) clearInterval(chatInterval);
           chatInterval = setInterval(loadClientMessages, 3000);
         } else {
           clearInterval(chatInterval);
@@ -616,7 +614,7 @@
       document.getElementById('floatingChatBtn').addEventListener('click', toggleChat);
       document.getElementById('closeChatPopup').addEventListener('click', () => {
         chatPopup.style.display = 'none';
-        if (chatInterval) clearInterval(chatInterval);
+        clearInterval(chatInterval);
       });
 
       document.querySelectorAll('.price-chat-btn').forEach(btn => {
@@ -690,8 +688,6 @@
         localStorage.removeItem('rogue_user');
         document.getElementById('admin-panel').style.display = 'none';
         chatPopup.style.display = 'none';
-        if (chatInterval) clearInterval(chatInterval);
-        if (adminPollInterval) clearInterval(adminPollInterval);
         alert("Successfully logout ho gaye.");
         updateNavAuth();
       };
@@ -717,17 +713,9 @@
             adminLink.innerHTML = '🔒 Admin Terminal';
             adminLink.onclick = () => {
               const admin = document.getElementById('admin-panel');
-              const isVisible = admin.style.display === 'block';
-              admin.style.display = isVisible ? 'none' : 'block';
-              
-              if (!isVisible) {
-                loadAdminData();
-                if (adminPollInterval) clearInterval(adminPollInterval);
-                adminPollInterval = setInterval(loadAdminChatUsers, 4000);
-                window.scrollTo({ top: admin.offsetTop - 100, behavior: 'smooth' });
-              } else {
-                if (adminPollInterval) clearInterval(adminPollInterval);
-              }
+              admin.style.display = admin.style.display === 'block' ? 'none' : 'block';
+              loadAdminData();
+              window.scrollTo({ top: admin.offsetTop - 100, behavior: 'smooth' });
             };
             navLinks.appendChild(adminLink);
           }
@@ -738,7 +726,6 @@
           `;
         } else {
           document.getElementById('admin-panel').style.display = 'none';
-          if (adminPollInterval) clearInterval(adminPollInterval);
           navActions.innerHTML = `
             <button class="btn-outline" id="openLoginBtn">Login</button>
             <button class="btn-primary" id="openSignupBtn" style="padding: 7px 14px; font-size: 12px;">Sign Up</button>
@@ -903,7 +890,6 @@
       }
 
       async function loadAdminMessages(email) {
-        if (!email) return;
         const box = document.getElementById('adminMessagesBox');
         const { data: msgs, error } = await supabase
           .from('messages')
@@ -927,7 +913,7 @@
         box.scrollTop = box.scrollHeight;
       }
 
-      const sendAdminMsg = async () => {
+      document.getElementById('sendAdminBtn').addEventListener('click', async () => {
         const input = document.getElementById('adminInput');
         const text = input.value.trim();
 
@@ -951,11 +937,6 @@
 
         input.value = '';
         loadAdminMessages(selectedChatEmail);
-      };
-
-      document.getElementById('sendAdminBtn').addEventListener('click', sendAdminMsg);
-      document.getElementById('adminInput').addEventListener('keypress', (e) => {
-        if(e.key === 'Enter') sendAdminMsg();
       });
 
       async function loadClientMessages() {
